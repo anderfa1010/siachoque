@@ -1,5 +1,6 @@
 Proyecto conciente 
 
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -489,6 +490,84 @@ Proyecto conciente
         footer strong { color: var(--tierra); }
 
         /* Responsive nav */
+        /* ─── VIF MODULE ─── */
+        .vif-header {
+            background: linear-gradient(135deg, #6b21a8 0%, #9333ea 100%);
+            border-radius: 16px;
+            padding: 2rem 2.5rem;
+            margin-bottom: 2rem;
+            color: #fff;
+        }
+        .vif-header h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 700; }
+        .vif-header p { opacity: 0.85; font-size: 0.95rem; margin-top: 0.3rem; }
+
+        .risk-badge {
+            display: inline-block;
+            padding: 0.3rem 0.9rem;
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .risk-bajo { background:#d1fae5; color:#065f46; }
+        .risk-moderado { background:#fef3c7; color:#92400e; }
+        .risk-alto { background:#fee2e2; color:#991b1b; }
+        .risk-muy-alto { background:#4c1d95; color:#fff; }
+
+        .scale-block {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+        .scale-block-header {
+            padding: 0.75rem 1rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+        .scale-block-header.isa { background: #f3e8ff; color: #6b21a8; }
+        .scale-block-header.wast { background: #fce7f3; color: #9d174d; }
+        .scale-block-header.danger { background: #fff7ed; color: #9a3412; }
+        .scale-block-body { padding: 1rem; display: none; }
+        .scale-block-body.open { display: block; }
+
+        .likert-row { display:flex; gap:0.3rem; flex-wrap:wrap; margin-top:0.3rem; }
+        .likert-opt input { display:none; }
+        .likert-opt label {
+            padding: 0.3rem 0.6rem;
+            border: 1.5px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .likert-opt input:checked + label {
+            background: #6b21a8;
+            border-color: #6b21a8;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .vif-case-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.7rem 0.9rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.15s;
+            border-left: 4px solid transparent;
+        }
+        .vif-case-item:hover { background: #f5f3ff; }
+        .vif-case-item.active { background: #ede9fe; border-left-color: #7c3aed; }
+
         @media (max-width: 640px) {
             .nav-brand { font-size: 1.2rem; }
             .nav-tab { padding: 1rem 0.9rem; font-size: 0.82rem; }
@@ -507,6 +586,8 @@ Proyecto conciente
         <div class="nav-tabs">
             <button class="nav-tab active" data-target="page-inicio">🏠 Inicio</button>
             <button class="nav-tab" data-target="page-geriatria">🩺 Seguimiento Geriátrico</button>
+            <button class="nav-tab" data-target="page-vif-mujeres">💜 VG Mujeres</button>
+            <button class="nav-tab" data-target="page-vif-hombres">💙 VG Hombres</button>
         </div>
     </div>
 </nav>
@@ -714,618 +795,875 @@ Proyecto conciente
 </div>
 </div>
 
-<!-- ══════════════════ FOOTER ══════════════════ -->
-<footer>
-    <strong>Proyecto Siachoque</strong> — Programa comunitario de atención geriátrica &nbsp;·&nbsp; Boyacá, Colombia &nbsp;·&nbsp; 2025
-</footer>
 
-<!-- ══════════════════ MODALS ══════════════════ -->
-<div id="patient-modal" class="modal">
+<!-- ══════════════════ PÁGINA: VIOLENCIA DE GÉNERO ══════════════════ -->
+<!-- ══════════════════ PÁGINA: VG MUJERES ══════════════════ -->
+<div id="page-vif-mujeres" class="page-section">
+<div style="max-width:1200px; margin:0 auto; padding:2rem;">
+
+    <div class="vif-header" style="background:linear-gradient(135deg,#6b21a8,#a855f7); border-radius:16px; padding:2rem 2.5rem; margin-bottom:2rem; color:#fff;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+            <div>
+                <h2 style="font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700;">💜 Mujeres Víctimas de Violencia de Género</h2>
+                <p style="opacity:0.85; font-size:0.95rem; margin-top:0.3rem;">Valoración integral y seguimiento de casos — Siachoque, Boyacá</p>
+            </div>
+            <div style="display:flex; gap:0.6rem; flex-wrap:wrap; align-items:center;">
+                <button onclick="exportVifMujeresData()" style="background:rgba(255,255,255,0.2); color:#fff; border:1px solid rgba(255,255,255,0.4); padding:0.45rem 1rem; border-radius:8px; font-size:0.85rem; cursor:pointer; font-weight:600;">⬇ Exportar</button>
+                <label style="background:rgba(255,255,255,0.2); color:#fff; border:1px solid rgba(255,255,255,0.4); padding:0.45rem 1rem; border-radius:8px; font-size:0.85rem; cursor:pointer; font-weight:600;">⬆ Importar<input type="file" id="import-vif-mujeres" accept=".json" style="display:none;" onchange="importVifMujeresData(event)"></label>
+                <span id="vif-mujeres-storage-info" style="font-size:0.78rem; color:rgba(255,255,255,0.75);"></span>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 2.2fr; gap:2rem;">
+        <!-- Sidebar -->
+        <div>
+            <div class="card" style="padding:1.5rem; border-top:4px solid #a855f7;">
+                <h3 style="font-family:'Playfair Display',serif; color:#6b21a8; font-size:1.15rem; margin-bottom:1rem;">Gestión de Casos</h3>
+                <button id="vif-m-add-btn" class="btn-primary" style="width:100%; margin-bottom:1rem; background:#7c3aed;">+ Nuevo Caso</button>
+                <h4 style="font-size:0.82rem; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.6rem;">Lista de Casos</h4>
+                <ul id="vif-m-list" style="display:flex; flex-direction:column; gap:0.5rem;">
+                    <li style="text-align:center; color:#bbb; padding:1.5rem 0; font-size:0.88rem;">No hay casos registrados.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div>
+            <div style="display:flex; gap:0.5rem; margin-bottom:1.2rem; flex-wrap:wrap;">
+                <button class="tab-button active vif-m-tab" data-vtab="vif-m-detail-view">Detalle del Caso</button>
+                <button class="tab-button vif-m-tab" data-vtab="vif-m-scales-view">Formatos de Escalas</button>
+            </div>
+
+            <div id="vif-m-detail-view">
+                <div id="vif-m-welcome" class="card" style="padding:3rem; text-align:center;">
+                    <div style="font-size:3rem; margin-bottom:1rem;">💜</div>
+                    <h2 style="font-family:'Playfair Display',serif; font-size:1.3rem; color:#7c3aed;">Módulo de Violencia de Género — Mujeres</h2>
+                    <p style="color:#888; margin-top:0.5rem;">Selecciona un caso o registra uno nuevo.</p>
+                </div>
+                <div id="vif-m-case-detail" style="display:none;">
+                    <div class="card" style="padding:1.5rem; border-top:4px solid #a855f7;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.8rem; margin-bottom:1rem;">
+                            <div>
+                                <h2 id="vif-m-case-name" style="font-family:'Playfair Display',serif; font-size:1.6rem; color:#6b21a8;"></h2>
+                                <p id="vif-m-case-info" style="color:#888; font-size:0.88rem;"></p>
+                            </div>
+                            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                                <button id="vif-m-edit-btn" class="btn-secondary">Editar Historia</button>
+                                <button id="vif-m-view-btn" class="btn-secondary">Ver Historia</button>
+                                <button id="vif-m-add-record-btn" class="btn-primary" style="background:#7c3aed;">+ Valoración</button>
+                            </div>
+                        </div>
+                        <hr style="margin-bottom:1.2rem; border-color:#f0e6ff;">
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                            <div class="card" style="padding:1rem;"><h3 style="font-size:0.82rem; font-weight:700; text-align:center; color:#7c3aed; margin-bottom:0.5rem;">WAST — Detección VG</h3><div class="chart-container"><canvas id="vif-m-wast-chart"></canvas></div></div>
+                            <div class="card" style="padding:1rem;"><h3 style="font-size:0.82rem; font-weight:700; text-align:center; color:#7c3aed; margin-bottom:0.5rem;">ISA — Abuso de Pareja</h3><div class="chart-container"><canvas id="vif-m-isa-chart"></canvas></div></div>
+                            <div class="card" style="padding:1rem;"><h3 style="font-size:0.82rem; font-weight:700; text-align:center; color:#7c3aed; margin-bottom:0.5rem;">Danger Assessment — Riesgo</h3><div class="chart-container"><canvas id="vif-m-danger-chart"></canvas></div></div>
+
+                        </div>
+                        <div id="vif-m-records-list" style="margin-top:2rem;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="vif-m-scales-view" style="display:none;">
+                <div class="card" style="padding:1.5rem;">
+                    <h2 style="font-family:'Playfair Display',serif; color:#6b21a8; font-size:1.3rem; margin-bottom:1.2rem;">Formatos de Escalas — Mujeres</h2>
+                    <div style="display:flex; flex-direction:column; gap:1.2rem;">
+                        <div style="background:#faf5ff; border-radius:12px; padding:1.2rem; border-left:4px solid #a855f7;">
+                            <h3 style="color:#6b21a8; font-weight:700; font-size:1rem;">WAST — Woman Abuse Screening Tool</h3>
+                            <p style="color:#555; font-size:0.88rem; margin-top:0.4rem;">Tamizaje rápido de violencia en pareja. 2 preguntas iniciales; si positivo, continuar con 6 adicionales.</p>
+                            <ol style="margin-top:0.8rem; padding-left:1.2rem; color:#444; font-size:0.87rem; display:flex; flex-direction:column; gap:0.4rem;">
+                                <li>En general, ¿cómo describe su relación con su pareja? <em>(Muy buena / Buena / Mala / Muy mala)</em></li>
+                                <li>¿Resuelven los desacuerdos con usted sintiéndose en riesgo de sufrir daño físico? <em>(Nunca / A veces / Siempre)</em></li>
+                            </ol>
+                            <div style="margin-top:0.8rem; background:#fff; border-radius:8px; padding:0.8rem; font-size:0.82rem; color:#555;">
+                                <strong>Positivo:</strong> Respuesta "Mala/Muy mala" en P1 <strong>O</strong> "A veces/Siempre" en P2 → continuar con el instrumento completo.
+                            </div>
+                        </div>
+                        <div style="background:#fdf4ff; border-radius:12px; padding:1.2rem; border-left:4px solid #c084fc;">
+                            <h3 style="color:#7e22ce; font-weight:700; font-size:1rem;">ISA — Index of Spouse Abuse (Versión corta)</h3>
+                            <p style="color:#555; font-size:0.88rem; margin-top:0.4rem;">Mide abuso físico (ISA-P) y no físico (ISA-NP). Puntaje 0–100 en cada subescala.</p>
+                            <div style="margin-top:0.8rem; background:#fff; border-radius:8px; padding:0.8rem; font-size:0.82rem; color:#555;">
+                                <strong>ISA-P ≥ 10:</strong> Abuso físico significativo &nbsp;|&nbsp; <strong>ISA-NP ≥ 25:</strong> Abuso no físico significativo
+                            </div>
+                        </div>
+                        <div style="background:#fff1f2; border-radius:12px; padding:1.2rem; border-left:4px solid #f43f5e;">
+                            <h3 style="color:#be123c; font-weight:700; font-size:1rem;">Danger Assessment — Campbell (1986)</h3>
+                            <p style="color:#555; font-size:0.88rem; margin-top:0.4rem;">Evalúa riesgo de femicidio. 20 ítems Sí/No. Puntaje 0–20.</p>
+                            <div style="margin-top:0.8rem; background:#fff; border-radius:8px; padding:0.8rem; font-size:0.82rem; color:#555;">
+                                <strong>0–7:</strong> Riesgo variable &nbsp;|&nbsp; <strong>8–13:</strong> Riesgo aumentado &nbsp;|&nbsp; <strong>14–17:</strong> Riesgo severo &nbsp;|&nbsp; <strong>18+:</strong> Riesgo extremo
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- ══════════════════ PÁGINA: VG HOMBRES ══════════════════ -->
+<div id="page-vif-hombres" class="page-section">
+<div style="max-width:1200px; margin:0 auto; padding:2rem;">
+
+    <div style="background:linear-gradient(135deg,#1e3a8a,#3b82f6); border-radius:16px; padding:2rem 2.5rem; margin-bottom:2rem; color:#fff;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+            <div>
+                <h2 style="font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:700;">💙 Hombres — Violencia de Género</h2>
+                <p style="opacity:0.85; font-size:0.95rem; margin-top:0.3rem;">Valoración de hombres agresores y víctimas — Siachoque, Boyacá</p>
+            </div>
+            <div style="display:flex; gap:0.6rem; flex-wrap:wrap; align-items:center;">
+                <button onclick="exportVifHombresData()" style="background:rgba(255,255,255,0.2); color:#fff; border:1px solid rgba(255,255,255,0.4); padding:0.45rem 1rem; border-radius:8px; font-size:0.85rem; cursor:pointer; font-weight:600;">⬇ Exportar</button>
+                <label style="background:rgba(255,255,255,0.2); color:#fff; border:1px solid rgba(255,255,255,0.4); padding:0.45rem 1rem; border-radius:8px; font-size:0.85rem; cursor:pointer; font-weight:600;">⬆ Importar<input type="file" id="import-vif-hombres" accept=".json" style="display:none;" onchange="importVifHombresData(event)"></label>
+                <span id="vif-hombres-storage-info" style="font-size:0.78rem; color:rgba(255,255,255,0.75);"></span>
+            </div>
+        </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 2.2fr; gap:2rem;">
+        <!-- Sidebar -->
+        <div>
+            <div class="card" style="padding:1.5rem; border-top:4px solid #3b82f6;">
+                <h3 style="font-family:'Playfair Display',serif; color:#1e3a8a; font-size:1.15rem; margin-bottom:1rem;">Gestión de Casos</h3>
+                <button id="vif-h-add-btn" class="btn-primary" style="width:100%; margin-bottom:1rem; background:#1d4ed8;">+ Nuevo Caso</button>
+                <h4 style="font-size:0.82rem; font-weight:700; color:#888; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:0.6rem;">Lista de Casos</h4>
+                <ul id="vif-h-list" style="display:flex; flex-direction:column; gap:0.5rem;">
+                    <li style="text-align:center; color:#bbb; padding:1.5rem 0; font-size:0.88rem;">No hay casos registrados.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main -->
+        <div>
+            <div style="display:flex; gap:0.5rem; margin-bottom:1.2rem; flex-wrap:wrap;">
+                <button class="tab-button active vif-h-tab" data-htab="vif-h-detail-view">Detalle del Caso</button>
+                <button class="tab-button vif-h-tab" data-htab="vif-h-scales-view">Formatos de Escalas</button>
+            </div>
+
+            <div id="vif-h-detail-view">
+                <div id="vif-h-welcome" class="card" style="padding:3rem; text-align:center;">
+                    <div style="font-size:3rem; margin-bottom:1rem;">💙</div>
+                    <h2 style="font-family:'Playfair Display',serif; font-size:1.3rem; color:#1d4ed8;">Módulo de Violencia de Género — Hombres</h2>
+                    <p style="color:#888; margin-top:0.5rem;">Selecciona un caso o registra uno nuevo.</p>
+                </div>
+                <div id="vif-h-case-detail" style="display:none;">
+                    <div class="card" style="padding:1.5rem; border-top:4px solid #3b82f6;">
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.8rem; margin-bottom:1rem;">
+                            <div>
+                                <h2 id="vif-h-case-name" style="font-family:'Playfair Display',serif; font-size:1.6rem; color:#1e3a8a;"></h2>
+                                <p id="vif-h-case-info" style="color:#888; font-size:0.88rem;"></p>
+                            </div>
+                            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                                <button id="vif-h-edit-btn" class="btn-secondary">Editar Historia</button>
+                                <button id="vif-h-view-btn" class="btn-secondary">Ver Historia</button>
+                                <button id="vif-h-add-record-btn" class="btn-primary" style="background:#1d4ed8;">+ Valoración</button>
+                            </div>
+                        </div>
+                        <hr style="margin-bottom:1.2rem; border-color:#e0eaff;">
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                            <div class="card" style="padding:1rem;"><h3 style="font-size:0.82rem; font-weight:700; text-align:center; color:#1d4ed8; margin-bottom:0.5rem;">AUDIT — Consumo de Alcohol</h3><div class="chart-container"><canvas id="vif-h-audit-chart"></canvas></div></div>
+                            <div class="card" style="padding:1rem;"><h3 style="font-size:0.82rem; font-weight:700; text-align:center; color:#1d4ed8; margin-bottom:0.5rem;">SARA — Riesgo de Reincidencia</h3><div class="chart-container"><canvas id="vif-h-sara-chart"></canvas></div></div>
+                            <div class="card" style="padding:1rem;"><h3 style="font-size:0.82rem; font-weight:700; text-align:center; color:#1d4ed8; margin-bottom:0.5rem;">EAS — Actitudes hacia la Violencia</h3><div class="chart-container"><canvas id="vif-h-eas-chart"></canvas></div></div>
+
+                        </div>
+                        <div id="vif-h-records-list" style="margin-top:2rem;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="vif-h-scales-view" style="display:none;">
+                <div class="card" style="padding:1.5rem;">
+                    <h2 style="font-family:'Playfair Display',serif; color:#1e3a8a; font-size:1.3rem; margin-bottom:1.2rem;">Formatos de Escalas — Hombres</h2>
+                    <div style="display:flex; flex-direction:column; gap:1.2rem;">
+                        <div style="background:#eff6ff; border-radius:12px; padding:1.2rem; border-left:4px solid #3b82f6;">
+                            <h3 style="color:#1e3a8a; font-weight:700; font-size:1rem;">AUDIT — Alcohol Use Disorders Identification Test</h3>
+                            <p style="color:#555; font-size:0.88rem; margin-top:0.4rem;">10 preguntas sobre consumo de alcohol. Puntaje 0–40.</p>
+                            <div style="margin-top:0.8rem; background:#fff; border-radius:8px; padding:0.8rem; font-size:0.82rem; color:#555;">
+                                <strong>0–7:</strong> Consumo de bajo riesgo &nbsp;|&nbsp; <strong>8–15:</strong> Consumo de riesgo &nbsp;|&nbsp; <strong>16–19:</strong> Consumo perjudicial &nbsp;|&nbsp; <strong>20+:</strong> Dependencia probable
+                            </div>
+                        </div>
+                        <div style="background:#f0f4ff; border-radius:12px; padding:1.2rem; border-left:4px solid #6366f1;">
+                            <h3 style="color:#3730a3; font-weight:700; font-size:1rem;">SARA — Spousal Assault Risk Assessment</h3>
+                            <p style="color:#555; font-size:0.88rem; margin-top:0.4rem;">Evalúa riesgo de reincidencia en violencia de pareja. 20 ítems. Puntaje 0–60.</p>
+                            <div style="margin-top:0.8rem; background:#fff; border-radius:8px; padding:0.8rem; font-size:0.82rem; color:#555;">
+                                <strong>Bajo:</strong> 0–11 &nbsp;|&nbsp; <strong>Moderado:</strong> 12–24 &nbsp;|&nbsp; <strong>Alto:</strong> 25+ (requiere intervención urgente)
+                            </div>
+                        </div>
+                        <div style="background:#fefce8; border-radius:12px; padding:1.2rem; border-left:4px solid #eab308;">
+                            <h3 style="color:#713f12; font-weight:700; font-size:1rem;">EAS — Escala de Actitudes hacia la Violencia de Género</h3>
+                            <p style="color:#555; font-size:0.88rem; margin-top:0.4rem;">Mide tolerancia y legitimación de la violencia de género. Puntaje 0–100.</p>
+                            <div style="margin-top:0.8rem; background:#fff; border-radius:8px; padding:0.8rem; font-size:0.82rem; color:#555;">
+                                <strong>Mayor puntaje = mayor tolerancia hacia la violencia.</strong> Punto de corte clínico: ≥ 50.
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Modals VIF Mujeres -->
+<div id="vif-m-case-modal" class="modal">
     <div class="modal-content" style="max-height:90vh; overflow-y:auto;">
-        <span class="close-button" id="close-patient-modal">&times;</span>
-        <h2 style="font-family:'Playfair Display',serif; font-size:1.5rem; color:var(--verde); margin-bottom:1.2rem;">Formulario de Historia Clínica</h2>
-        <form id="patient-form" style="display:flex; flex-direction:column; gap:1rem;">
-            <input type="hidden" id="patient-edit-id">
-            <fieldset style="padding:1rem; border-radius:8px;">
-                <legend style="padding:0 0.5rem;">Datos de Identificación</legend>
+        <span class="close-button" onclick="document.getElementById('vif-m-case-modal').style.display='none'">&times;</span>
+        <h2 style="font-family:'Playfair Display',serif; font-size:1.4rem; color:#6b21a8; margin-bottom:1.2rem;">Historia Clínica — Mujer</h2>
+        <form id="vif-m-form" style="display:flex; flex-direction:column; gap:1rem;">
+            <input type="hidden" id="vif-m-edit-id">
+            <fieldset style="padding:1rem; border-radius:8px; border:1px solid #e9d5ff;">
+                <legend style="padding:0 0.5rem; color:#7c3aed; font-weight:700;">Datos de Identificación</legend>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin-top:0.8rem;">
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Nombre Completo</label><input type="text" id="patient-name" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;" required></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Número de Documento</label><input type="text" id="patient-id" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;" required></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Fecha de Nacimiento</label><input type="date" id="patient-birthdate" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;" required></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Lugar de Nacimiento</label><input type="text" id="patient-birthplace" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Dirección</label><input type="text" id="patient-address" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Teléfono</label><input type="tel" id="patient-phone" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Sexo</label><select id="patient-sex" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"><option value="Femenino">Femenino</option><option value="Masculino">Masculino</option></select></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Estado Civil</label><input type="text" id="patient-civil-status" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Ocupación</label><input type="text" id="patient-occupation" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Escolaridad</label><input type="text" id="patient-schooling" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">EAPBS</label><input type="text" id="patient-eapbs" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Régimen</label><input type="text" id="patient-regimen" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
-                    <div style="grid-column:1/-1;"><label style="font-size:0.85rem; font-weight:600; color:#444;">Estructura Familiar</label><textarea id="patient-family-structure" rows="2" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Nombre Completo</label><input type="text" id="vif-m-name" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;" required></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Documento</label><input type="text" id="vif-m-id" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;" required></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Fecha de Nacimiento</label><input type="date" id="vif-m-birthdate" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;" required></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Teléfono</label><input type="tel" id="vif-m-phone" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Dirección</label><input type="text" id="vif-m-address" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Estado Civil</label><select id="vif-m-civil" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"><option>Soltera</option><option>Casada</option><option>Unión libre</option><option>Separada</option><option>Divorciada</option><option>Viuda</option></select></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Escolaridad</label><input type="text" id="vif-m-schooling" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Ocupación</label><input type="text" id="vif-m-occupation" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">N° de hijos</label><input type="number" id="vif-m-children" min="0" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Red de apoyo</label><input type="text" id="vif-m-support" placeholder="Familia, amigos, institución..." style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
                 </div>
             </fieldset>
-
-            <fieldset style="padding:1rem; border-radius:8px;">
-                <legend style="padding:0 0.5rem;">Consulta Actual</legend>
+            <fieldset style="padding:1rem; border-radius:8px; border:1px solid #e9d5ff;">
+                <legend style="padding:0 0.5rem; color:#7c3aed; font-weight:700;">Contexto de la Violencia</legend>
                 <div style="display:flex; flex-direction:column; gap:0.8rem; margin-top:0.8rem;">
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Motivo de Consulta</label><textarea id="patient-consult-reason" rows="3" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Enfermedad Actual</label><textarea id="patient-current-illness" rows="3" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Tipo de violencia reportada</label>
+                    <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.4rem;" id="vif-m-violence-types">
+                        <label style="display:flex; align-items:center; gap:0.3rem; font-size:0.85rem;"><input type="checkbox" value="Física"> Física</label>
+                        <label style="display:flex; align-items:center; gap:0.3rem; font-size:0.85rem;"><input type="checkbox" value="Psicológica"> Psicológica</label>
+                        <label style="display:flex; align-items:center; gap:0.3rem; font-size:0.85rem;"><input type="checkbox" value="Sexual"> Sexual</label>
+                        <label style="display:flex; align-items:center; gap:0.3rem; font-size:0.85rem;"><input type="checkbox" value="Económica"> Económica</label>
+                        <label style="display:flex; align-items:center; gap:0.3rem; font-size:0.85rem;"><input type="checkbox" value="Patrimonial"> Patrimonial</label>
+                    </div></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Tiempo de exposición a violencia</label><input type="text" id="vif-m-duration" placeholder="Ej: 3 años" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Descripción del motivo de consulta</label><textarea id="vif-m-reason" rows="3" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Antecedentes relevantes</label><textarea id="vif-m-background" rows="2" placeholder="Violencias previas, historia familiar, antecedentes médicos..." style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">¿Denuncias previas?</label><select id="vif-m-reports" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"><option value="No">No</option><option value="Sí">Sí</option><option value="En proceso">En proceso</option></select></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Ruta de atención activada</label><textarea id="vif-m-route" rows="2" placeholder="ICBF, Comisaría, Fiscalía, Casa Refugio..." style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
                 </div>
             </fieldset>
-
-            <fieldset style="padding:1rem; border-radius:8px;">
-                <legend style="padding:0 0.5rem;">Antecedentes</legend>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin-top:0.8rem;">
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Patológicos</label><textarea id="antecedentes-patologicos" rows="2" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Quirúrgicos</label><textarea id="antecedentes-quirurgicos" rows="2" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Farmacológicos</label><textarea id="antecedentes-farmacologicos" rows="2" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Tóxicos</label><textarea id="antecedentes-toxicos" rows="2" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Familiares</label><textarea id="antecedentes-familiares" rows="2" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Psiquiátricos</label><textarea id="antecedentes-psiquiatricos" rows="2" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Transfusionales</label><textarea id="antecedentes-transfusionales" rows="2" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Hemoclasificación</label><input type="text" id="antecedentes-hemoclasificacion" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Alérgicos</label><textarea id="antecedentes-alergicos" rows="2" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Ocupacionales</label><textarea id="antecedentes-ocupacionales" rows="2" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Inmunológicos</label><textarea id="antecedentes-inmunologicos" rows="2" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">ETS</label><textarea id="antecedentes-ets" rows="2" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Violencia Intrafamiliar</label><select id="antecedentes-vif" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"><option value="No">No</option><option value="Si">Sí</option></select></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Tipo de Vivienda</label><input type="text" id="patient-housing-type" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
-                </div>
-            </fieldset>
-
-            <fieldset id="ginecologicos-fieldset" style="padding:1rem; border-radius:8px;">
-                <legend style="padding:0 0.5rem;">Antecedentes Ginecológicos</legend>
-                <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:0.8rem; margin-top:0.8rem;">
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">FUR</label><input type="date" id="ginecologicos-fur" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">G</label><input type="number" id="ginecologicos-g" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">P</label><input type="number" id="ginecologicos-p" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">V</label><input type="number" id="ginecologicos-v" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">A</label><input type="number" id="ginecologicos-a" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
-                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">C</label><input type="number" id="ginecologicos-c" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
-                    <div style="grid-column:span 2;"><label style="font-size:0.85rem; font-weight:600; color:#444;">Planificación</label><input type="text" id="ginecologicos-planificacion" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
-                </div>
-            </fieldset>
-
-            <button type="submit" class="btn-primary" style="width:100%; padding:0.75rem; font-size:1rem;">Guardar Paciente</button>
+            <button type="submit" class="btn-primary" style="width:100%; padding:0.75rem; background:#7c3aed; font-size:1rem;">Guardar Caso</button>
         </form>
     </div>
 </div>
 
-<div id="record-modal" class="modal">
+<div id="vif-m-record-modal" class="modal">
     <div class="modal-content" style="max-height:90vh; overflow-y:auto;">
-        <span class="close-button" id="close-record-modal">&times;</span>
-        <h2 style="font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--verde); margin-bottom:1rem;">Nueva Medición — <span id="record-modal-patient-name" style="color:var(--tierra-oscura);"></span></h2>
-        <form id="record-form" style="display:flex; flex-direction:column; gap:1rem;">
-            <div><label style="font-weight:600; color:#444; font-size:0.9rem;">Fecha de Medición</label><input type="date" id="record-date" style="width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px; margin-top:0.3rem;" required></div>
-            <div style="border:1px solid #eee; padding:0.8rem; border-radius:8px;"><label style="font-weight:700; color:var(--verde); font-size:0.9rem;">Fragilidad SPPB (0–12)</label><input type="number" step="any" id="fragility-score" min="0" max="12" style="width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px; margin-top:0.4rem;" required><p style="font-size:0.78rem; color:#888; margin-top:0.3rem;">0–3 Frágil · 4–9 Pre-frágil · 10–12 No frágil</p></div>
-            <div style="border:1px solid #eee; padding:0.8rem; border-radius:8px;"><label style="font-weight:700; color:var(--verde); font-size:0.9rem;">Up and Go (segundos)</label><input type="number" step="any" id="fall-risk-score" min="0" style="width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px; margin-top:0.4rem;" required><p style="font-size:0.78rem; color:#888; margin-top:0.3rem;">&gt;12 seg = Riesgo Alto</p></div>
-            <div style="border:1px solid #eee; padding:0.8rem; border-radius:8px;"><label style="font-weight:700; color:var(--verde); font-size:0.9rem;">Pfeiffer — Errores (0–10)</label><input type="number" step="any" id="cognitive-score" min="0" max="10" style="width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px; margin-top:0.4rem;" required><p style="font-size:0.78rem; color:#888; margin-top:0.3rem;">0–2 Normal · 3–4 Leve · 5–7 Moderado · 8–10 Severo</p></div>
-            <fieldset style="padding:0.8rem; border-radius:8px; border:1px solid #eee;">
-                <legend style="padding:0 0.4rem; font-size:0.9rem;">Test de Morisky-Green</legend>
-                <div style="display:flex; flex-direction:column; gap:0.8rem; margin-top:0.6rem;" id="morisky-form">
-                    <div><p style="font-size:0.88rem; color:#333;">1. ¿Olvida alguna vez tomar los medicamentos?</p><div style="display:flex; gap:0.5rem; margin-top:0.3rem;"><input type="radio" name="morisky-q1" value="si" id="morisky-q1-si" class="sr-only morisky-radio"><label for="morisky-q1-si" class="morisky-label">Sí</label><input type="radio" name="morisky-q1" value="no" id="morisky-q1-no" class="sr-only morisky-radio"><label for="morisky-q1-no" class="morisky-label">No</label></div></div>
-                    <div><p style="font-size:0.88rem; color:#333;">2. ¿Toma los medicamentos a las horas indicadas?</p><div style="display:flex; gap:0.5rem; margin-top:0.3rem;"><input type="radio" name="morisky-q2" value="si" id="morisky-q2-si" class="sr-only morisky-radio"><label for="morisky-q2-si" class="morisky-label">Sí</label><input type="radio" name="morisky-q2" value="no" id="morisky-q2-no" class="sr-only morisky-radio"><label for="morisky-q2-no" class="morisky-label">No</label></div></div>
-                    <div><p style="font-size:0.88rem; color:#333;">3. Cuando se encuentra bien, ¿deja de tomar la medicación?</p><div style="display:flex; gap:0.5rem; margin-top:0.3rem;"><input type="radio" name="morisky-q3" value="si" id="morisky-q3-si" class="sr-only morisky-radio"><label for="morisky-q3-si" class="morisky-label">Sí</label><input type="radio" name="morisky-q3" value="no" id="morisky-q3-no" class="sr-only morisky-radio"><label for="morisky-q3-no" class="morisky-label">No</label></div></div>
-                    <div><p style="font-size:0.88rem; color:#333;">4. Si alguna vez le sienta mal, ¿deja de tomarla?</p><div style="display:flex; gap:0.5rem; margin-top:0.3rem;"><input type="radio" name="morisky-q4" value="si" id="morisky-q4-si" class="sr-only morisky-radio"><label for="morisky-q4-si" class="morisky-label">Sí</label><input type="radio" name="morisky-q4" value="no" id="morisky-q4-no" class="sr-only morisky-radio"><label for="morisky-q4-no" class="morisky-label">No</label></div></div>
-                </div>
-                <div id="morisky-result" style="margin-top:0.8rem; padding:0.6rem; background:#f5f5f5; border-radius:8px; text-align:center; font-weight:600; font-size:0.88rem; color:#555;">Seleccione una respuesta para cada pregunta.</div>
-                <input type="hidden" id="adherence-score" required>
-            </fieldset>
-            <div style="border:1px solid #eee; padding:0.8rem; border-radius:8px;"><label style="font-weight:700; color:var(--verde); font-size:0.9rem;">Framingham — Riesgo Cardiovascular (%)</label><input type="number" step="any" id="cardio-risk-score" min="0" max="100" style="width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px; margin-top:0.4rem;" required><p style="font-size:0.78rem; color:#888; margin-top:0.3rem;">&lt;10% Bajo · 10–20% Moderado · &gt;20% Alto</p></div>
-            <button type="submit" class="btn-primary" style="width:100%; padding:0.75rem; font-size:1rem;">Guardar Medición</button>
+        <span class="close-button" onclick="document.getElementById('vif-m-record-modal').style.display='none'">&times;</span>
+        <h2 style="font-family:'Playfair Display',serif; font-size:1.3rem; color:#6b21a8; margin-bottom:1rem;">Nueva Valoración — <span id="vif-m-record-case-name" style="color:#a855f7;"></span></h2>
+        <form id="vif-m-record-form" style="display:flex; flex-direction:column; gap:1rem;">
+            <div><label style="font-weight:600; font-size:0.9rem; color:#444;">Fecha</label><input type="date" id="vif-m-rec-date" style="width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px; margin-top:0.3rem;" required></div>
+            <div style="border:1px solid #e9d5ff; padding:0.8rem; border-radius:8px;">
+                <label style="font-weight:700; color:#7c3aed; font-size:0.9rem;">WAST — Puntaje (0–16)</label>
+                <input type="number" id="vif-m-rec-wast" min="0" max="16" style="width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px; margin-top:0.4rem;" required>
+                <p style="font-size:0.78rem; color:#888; margin-top:0.3rem;">0–7: Bajo riesgo · 8–12: Riesgo moderado · 13–16: Riesgo alto</p>
+            </div>
+            <div style="border:1px solid #e9d5ff; padding:0.8rem; border-radius:8px;">
+                <label style="font-weight:700; color:#7c3aed; font-size:0.9rem;">ISA — Abuso de Pareja (0–100)</label>
+                <input type="number" id="vif-m-rec-isa" min="0" max="100" style="width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px; margin-top:0.4rem;" required>
+                <p style="font-size:0.78rem; color:#888; margin-top:0.3rem;">ISA-P ≥ 10: Abuso físico · ISA-NP ≥ 25: Abuso no físico</p>
+            </div>
+            <div style="border:1px solid #fecdd3; padding:0.8rem; border-radius:8px;">
+                <label style="font-weight:700; color:#be123c; font-size:0.9rem;">Danger Assessment — Riesgo (0–20)</label>
+                <input type="number" id="vif-m-rec-danger" min="0" max="20" style="width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px; margin-top:0.4rem;" required>
+                <p style="font-size:0.78rem; color:#888; margin-top:0.3rem;">0–7: Variable · 8–13: Aumentado · 14–17: Severo · 18+: Extremo</p>
+            </div>
+            <div><label style="font-weight:600; font-size:0.9rem; color:#444;">Observaciones clínicas</label><textarea id="vif-m-rec-notes" rows="2" style="width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px; margin-top:0.3rem;"></textarea></div>
+            <button type="submit" class="btn-primary" style="width:100%; padding:0.75rem; background:#7c3aed; font-size:1rem;">Guardar Valoración</button>
         </form>
     </div>
 </div>
 
-<div id="confirm-modal" class="modal">
+<div id="vif-m-history-modal" class="modal">
+    <div class="modal-content" style="max-height:90vh; overflow-y:auto;">
+        <span class="close-button" onclick="document.getElementById('vif-m-history-modal').style.display='none'">&times;</span>
+        <h2 style="font-family:'Playfair Display',serif; font-size:1.4rem; color:#6b21a8; margin-bottom:1rem;">Historia Clínica — <span id="vif-m-history-name" style="color:#a855f7;"></span></h2>
+        <div id="vif-m-history-content"></div>
+    </div>
+</div>
+
+<!-- Modals VIF Hombres -->
+<div id="vif-h-case-modal" class="modal">
+    <div class="modal-content" style="max-height:90vh; overflow-y:auto;">
+        <span class="close-button" onclick="document.getElementById('vif-h-case-modal').style.display='none'">&times;</span>
+        <h2 style="font-family:'Playfair Display',serif; font-size:1.4rem; color:#1e3a8a; margin-bottom:1.2rem;">Historia Clínica — Hombre</h2>
+        <form id="vif-h-form" style="display:flex; flex-direction:column; gap:1rem;">
+            <input type="hidden" id="vif-h-edit-id">
+            <fieldset style="padding:1rem; border-radius:8px; border:1px solid #bfdbfe;">
+                <legend style="padding:0 0.5rem; color:#1d4ed8; font-weight:700;">Datos de Identificación</legend>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin-top:0.8rem;">
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Nombre Completo</label><input type="text" id="vif-h-name" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;" required></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Documento</label><input type="text" id="vif-h-id" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;" required></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Fecha de Nacimiento</label><input type="date" id="vif-h-birthdate" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;" required></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Teléfono</label><input type="tel" id="vif-h-phone" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Dirección</label><input type="text" id="vif-h-address" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Estado Civil</label><select id="vif-h-civil" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"><option>Soltero</option><option>Casado</option><option>Unión libre</option><option>Separado</option><option>Divorciado</option><option>Viudo</option></select></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Escolaridad</label><input type="text" id="vif-h-schooling" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Ocupación</label><input type="text" id="vif-h-occupation" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Rol en el caso</label><select id="vif-h-role" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"><option>Agresor en proceso</option><option>Víctima de VG</option><option>En intervención terapéutica</option><option>Otro</option></select></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Red de apoyo</label><input type="text" id="vif-h-support" placeholder="Familia, institución..." style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
+                </div>
+            </fieldset>
+            <fieldset style="padding:1rem; border-radius:8px; border:1px solid #bfdbfe;">
+                <legend style="padding:0 0.5rem; color:#1d4ed8; font-weight:700;">Contexto del Caso</legend>
+                <div style="display:flex; flex-direction:column; gap:0.8rem; margin-top:0.8rem;">
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Tipo de violencia ejercida / recibida</label>
+                    <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.4rem;" id="vif-h-violence-types">
+                        <label style="display:flex; align-items:center; gap:0.3rem; font-size:0.85rem;"><input type="checkbox" value="Física"> Física</label>
+                        <label style="display:flex; align-items:center; gap:0.3rem; font-size:0.85rem;"><input type="checkbox" value="Psicológica"> Psicológica</label>
+                        <label style="display:flex; align-items:center; gap:0.3rem; font-size:0.85rem;"><input type="checkbox" value="Sexual"> Sexual</label>
+                        <label style="display:flex; align-items:center; gap:0.3rem; font-size:0.85rem;"><input type="checkbox" value="Económica"> Económica</label>
+                        <label style="display:flex; align-items:center; gap:0.3rem; font-size:0.85rem;"><input type="checkbox" value="Intimidación"> Intimidación</label>
+                    </div></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Tiempo de la problemática</label><input type="text" id="vif-h-duration" placeholder="Ej: 2 años" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Motivo de consulta / derivación</label><textarea id="vif-h-reason" rows="3" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Antecedentes relevantes</label><textarea id="vif-h-background" rows="2" placeholder="Historia de violencia intergeneracional, consumo, etc..." style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">¿Medidas legales vigentes?</label><select id="vif-h-legal" style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"><option value="No">No</option><option value="Sí — Medida de protección">Sí — Medida de protección</option><option value="Sí — Proceso penal">Sí — Proceso penal</option><option value="En trámite">En trámite</option></select></div>
+                    <div><label style="font-size:0.85rem; font-weight:600; color:#444;">Intervención activada</label><textarea id="vif-h-intervention" rows="2" placeholder="Programa de reeducación, terapia, Comisaría..." style="margin-top:0.3rem; width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px;"></textarea></div>
+                </div>
+            </fieldset>
+            <button type="submit" class="btn-primary" style="width:100%; padding:0.75rem; background:#1d4ed8; font-size:1rem;">Guardar Caso</button>
+        </form>
+    </div>
+</div>
+
+<div id="vif-h-record-modal" class="modal">
+    <div class="modal-content" style="max-height:90vh; overflow-y:auto;">
+        <span class="close-button" onclick="document.getElementById('vif-h-record-modal').style.display='none'">&times;</span>
+        <h2 style="font-family:'Playfair Display',serif; font-size:1.3rem; color:#1e3a8a; margin-bottom:1rem;">Nueva Valoración — <span id="vif-h-record-case-name" style="color:#3b82f6;"></span></h2>
+        <form id="vif-h-record-form" style="display:flex; flex-direction:column; gap:1rem;">
+            <div><label style="font-weight:600; font-size:0.9rem; color:#444;">Fecha</label><input type="date" id="vif-h-rec-date" style="width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px; margin-top:0.3rem;" required></div>
+            <div style="border:1px solid #bfdbfe; padding:0.8rem; border-radius:8px;">
+                <label style="font-weight:700; color:#1d4ed8; font-size:0.9rem;">AUDIT — Alcohol (0–40)</label>
+                <input type="number" id="vif-h-rec-audit" min="0" max="40" style="width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px; margin-top:0.4rem;" required>
+                <p style="font-size:0.78rem; color:#888; margin-top:0.3rem;">0–7: Bajo riesgo · 8–15: Riesgo · 16–19: Perjudicial · 20+: Dependencia</p>
+            </div>
+            <div style="border:1px solid #c7d2fe; padding:0.8rem; border-radius:8px;">
+                <label style="font-weight:700; color:#3730a3; font-size:0.9rem;">SARA — Riesgo Reincidencia (0–60)</label>
+                <input type="number" id="vif-h-rec-sara" min="0" max="60" style="width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px; margin-top:0.4rem;" required>
+                <p style="font-size:0.78rem; color:#888; margin-top:0.3rem;">0–11: Bajo · 12–24: Moderado · 25+: Alto</p>
+            </div>
+            <div style="border:1px solid #fef08a; padding:0.8rem; border-radius:8px;">
+                <label style="font-weight:700; color:#713f12; font-size:0.9rem;">EAS — Actitudes hacia VG (0–100)</label>
+                <input type="number" id="vif-h-rec-eas" min="0" max="100" style="width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px; margin-top:0.4rem;" required>
+                <p style="font-size:0.78rem; color:#888; margin-top:0.3rem;">Mayor puntaje = mayor tolerancia · Punto de corte: ≥ 50</p>
+            </div>
+            <div><label style="font-weight:600; font-size:0.9rem; color:#444;">Observaciones clínicas</label><textarea id="vif-h-rec-notes" rows="2" style="width:100%; padding:0.5rem; border:1px solid #ddd; border-radius:6px; margin-top:0.3rem;"></textarea></div>
+            <button type="submit" class="btn-primary" style="width:100%; padding:0.75rem; background:#1d4ed8; font-size:1rem;">Guardar Valoración</button>
+        </form>
+    </div>
+</div>
+
+<div id="vif-h-history-modal" class="modal">
+    <div class="modal-content" style="max-height:90vh; overflow-y:auto;">
+        <span class="close-button" onclick="document.getElementById('vif-h-history-modal').style.display='none'">&times;</span>
+        <h2 style="font-family:'Playfair Display',serif; font-size:1.4rem; color:#1e3a8a; margin-bottom:1rem;">Historia Clínica — <span id="vif-h-history-name" style="color:#3b82f6;"></span></h2>
+        <div id="vif-h-history-content"></div>
+    </div>
+</div>
+
+<div id="vif-confirm-modal" class="modal">
     <div class="modal-content" style="text-align:center; max-width:420px;">
         <h2 style="font-size:1.2rem; font-weight:700; margin-bottom:1rem;">Confirmar Eliminación</h2>
-        <p id="confirm-modal-text" style="color:#555; margin-bottom:1.5rem; font-size:0.95rem;"></p>
+        <p id="vif-confirm-text" style="color:#555; margin-bottom:1.5rem;"></p>
         <div style="display:flex; justify-content:center; gap:0.8rem;">
-            <button id="confirm-modal-cancel" class="btn-secondary">Cancelar</button>
-            <button id="confirm-modal-confirm" class="btn-danger" style="padding:0.55rem 1.2rem; font-size:0.9rem;">Confirmar</button>
+            <button id="vif-confirm-cancel" class="btn-secondary">Cancelar</button>
+            <button id="vif-confirm-ok" class="btn-danger" style="padding:0.55rem 1.2rem;">Confirmar</button>
         </div>
     </div>
 </div>
 
-<div id="history-modal" class="modal">
-    <div class="modal-content" style="max-height:90vh; overflow-y:auto;">
-        <span class="close-button" id="close-history-modal">&times;</span>
-        <h2 style="font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--verde); margin-bottom:1rem;">Historia Clínica — <span id="history-patient-name" style="color:var(--tierra-oscura);"></span></h2>
-        <div id="history-content" style="display:flex; flex-direction:column; gap:1rem;"></div>
-    </div>
-</div>
 
-<!-- ══════════════════ JAVASCRIPT ══════════════════ -->
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-
-    // ─── NAVEGACIÓN PRINCIPAL ─── //
-    document.querySelectorAll('.nav-tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
-            tab.classList.add('active');
-            document.getElementById(tab.dataset.target).classList.add('active');
-        });
-    });
-
-    // ─── GALERÍA DE IMÁGENES ─── //
-    const fileInput = document.getElementById('file-input');
-    const uploadArea = document.getElementById('upload-area');
-    const galleryGrid = document.getElementById('gallery-grid');
-    const galleryEmpty = document.getElementById('gallery-empty');
-
-    const updateGalleryEmpty = () => {
-        galleryEmpty.style.display = galleryGrid.children.length === 0 ? 'block' : 'none';
+// ═══════════════════════════════════════════════════════════════
+//  VIF MODULE — shared helpers
+// ═══════════════════════════════════════════════════════════════
+(function() {
+    const calcAge = (bd) => {
+        const b = new Date(bd), t = new Date();
+        let a = t.getFullYear() - b.getFullYear();
+        if (t.getMonth() - b.getMonth() < 0 || (t.getMonth() === b.getMonth() && t.getDate() < b.getDate())) a--;
+        return a;
     };
 
-    const addImageToGallery = (src) => {
-        const item = document.createElement('div');
-        item.className = 'gallery-item';
-        item.innerHTML = `<img src="${src}" alt="Imagen del proyecto"><button class="delete-img" title="Eliminar">✕</button>`;
-        item.querySelector('.delete-img').addEventListener('click', () => {
-            item.remove();
-            updateGalleryEmpty();
-        });
-        galleryGrid.appendChild(item);
-        updateGalleryEmpty();
-    };
-
-    fileInput.addEventListener('change', (e) => {
-        Array.from(e.target.files).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = ev => addImageToGallery(ev.target.result);
-            reader.readAsDataURL(file);
-        });
-        fileInput.value = '';
-    });
-
-    uploadArea.addEventListener('dragover', (e) => { e.preventDefault(); uploadArea.classList.add('drag-over'); });
-    uploadArea.addEventListener('dragleave', () => uploadArea.classList.remove('drag-over'));
-    uploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadArea.classList.remove('drag-over');
-        Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/')).forEach(file => {
-            const reader = new FileReader();
-            reader.onload = ev => addImageToGallery(ev.target.result);
-            reader.readAsDataURL(file);
-        });
-    });
-
-    // ─── MÓDULO GERIÁTRICO ─── //
-    let patients = JSON.parse(localStorage.getItem('patients_siachoque')) || [];
-    let selectedPatientId = null;
-    const charts = {};
-    let confirmCallback = null;
-
-    const DOM = {
-        addPatientBtn: document.getElementById('add-patient-btn'),
-        patientModal: document.getElementById('patient-modal'),
-        closePatientModal: document.getElementById('close-patient-modal'),
-        patientForm: document.getElementById('patient-form'),
-        patientList: document.getElementById('patient-list'),
-        welcomeMessage: document.getElementById('welcome-message'),
-        patientDetailsSection: document.getElementById('patient-details-section'),
-        addRecordBtn: document.getElementById('add-record-btn'),
-        recordModal: document.getElementById('record-modal'),
-        closeRecordModal: document.getElementById('close-record-modal'),
-        recordForm: document.getElementById('record-form'),
-        recordsListSection: document.getElementById('records-list-section'),
-        confirmModal: document.getElementById('confirm-modal'),
-        confirmModalText: document.getElementById('confirm-modal-text'),
-        confirmModalConfirm: document.getElementById('confirm-modal-confirm'),
-        confirmModalCancel: document.getElementById('confirm-modal-cancel'),
-        tabPatientDetails: document.getElementById('tab-patient-details'),
-        tabAggregatedData: document.getElementById('tab-aggregated-data'),
-        tabScalesFormat: document.getElementById('tab-scales-format'),
-        patientView: document.getElementById('patient-view'),
-        aggregatedView: document.getElementById('aggregated-view'),
-        scalesFormatView: document.getElementById('scales-format-view'),
-        viewHistoryBtn: document.getElementById('view-history-btn'),
-        editHistoryBtn: document.getElementById('edit-history-btn'),
-        historyModal: document.getElementById('history-modal'),
-        closeHistoryModal: document.getElementById('close-history-modal'),
-        historyPatientName: document.getElementById('history-patient-name'),
-        historyContent: document.getElementById('history-content'),
-        ginecologicosFieldset: document.getElementById('ginecologicos-fieldset'),
-        patientSexSelect: document.getElementById('patient-sex'),
-        patientEditId: document.getElementById('patient-edit-id'),
-        moriskyForm: document.getElementById('morisky-form'),
-        moriskyResult: document.getElementById('morisky-result'),
-        adherenceScoreInput: document.getElementById('adherence-score'),
-    };
-
-    const saveData = () => {
-        try {
-            localStorage.setItem('patients_siachoque', JSON.stringify(patients));
-            // Also save a timestamp of last update
-            localStorage.setItem('patients_siachoque_updated', new Date().toISOString());
-        } catch(e) {
-            console.warn('Storage error:', e);
-            alert('Advertencia: El almacenamiento está lleno. Considera exportar los datos.');
-        }
-    };
-    const calculateAge = (birthdate) => {
-        const b = new Date(birthdate), today = new Date();
-        let age = today.getFullYear() - b.getFullYear();
-        const m = today.getMonth() - b.getMonth();
-        if (m < 0 || (m === 0 && today.getDate() < b.getDate())) age--;
-        return age;
-    };
-
-    const openConfirmModal = (text, cb) => { DOM.confirmModalText.textContent = text; confirmCallback = cb; DOM.confirmModal.style.display = 'flex'; };
-    const closeConfirmModal = () => { DOM.confirmModal.style.display = 'none'; confirmCallback = null; };
-
-    const getPatientDataFromForm = () => ({
-        id: document.getElementById('patient-id').value,
-        name: document.getElementById('patient-name').value,
-        birthdate: document.getElementById('patient-birthdate').value,
-        sex: DOM.patientSexSelect.value,
-        history: {
-            birthplace: document.getElementById('patient-birthplace').value,
-            address: document.getElementById('patient-address').value,
-            phone: document.getElementById('patient-phone').value,
-            civilStatus: document.getElementById('patient-civil-status').value,
-            occupation: document.getElementById('patient-occupation').value,
-            schooling: document.getElementById('patient-schooling').value,
-            eapbs: document.getElementById('patient-eapbs').value,
-            regimen: document.getElementById('patient-regimen').value,
-            familyStructure: document.getElementById('patient-family-structure').value,
-            consultReason: document.getElementById('patient-consult-reason').value,
-            currentIllness: document.getElementById('patient-current-illness').value,
-            housingType: document.getElementById('patient-housing-type').value,
-            antecedentes: {
-                patologicos: document.getElementById('antecedentes-patologicos').value,
-                quirurgicos: document.getElementById('antecedentes-quirurgicos').value,
-                farmacologicos: document.getElementById('antecedentes-farmacologicos').value,
-                toxicos: document.getElementById('antecedentes-toxicos').value,
-                familiares: document.getElementById('antecedentes-familiares').value,
-                psiquiatricos: document.getElementById('antecedentes-psiquiatricos').value,
-                transfusionales: document.getElementById('antecedentes-transfusionales').value,
-                hemoclasificacion: document.getElementById('antecedentes-hemoclasificacion').value,
-                alergicos: document.getElementById('antecedentes-alergicos').value,
-                ocupacionales: document.getElementById('antecedentes-ocupacionales').value,
-                inmunologicos: document.getElementById('antecedentes-inmunologicos').value,
-                ets: document.getElementById('antecedentes-ets').value,
-                vif: document.getElementById('antecedentes-vif').value,
-            },
-            ginecologicos: {
-                fur: document.getElementById('ginecologicos-fur').value,
-                g: document.getElementById('ginecologicos-g').value,
-                p: document.getElementById('ginecologicos-p').value,
-                v: document.getElementById('ginecologicos-v').value,
-                a: document.getElementById('ginecologicos-a').value,
-                c: document.getElementById('ginecologicos-c').value,
-                planificacion: document.getElementById('ginecologicos-planificacion').value,
-            }
-        }
-    });
-
-    const populatePatientForm = (patient) => {
-        document.getElementById('patient-id').value = patient.id;
-        document.getElementById('patient-name').value = patient.name;
-        document.getElementById('patient-birthdate').value = patient.birthdate;
-        DOM.patientSexSelect.value = patient.sex;
-        const h = patient.history;
-        ['birthplace','address','phone','civilStatus','occupation','schooling','eapbs','regimen','familyStructure','consultReason','currentIllness','housingType'].forEach(k => {
-            const el = document.getElementById('patient-' + k.replace(/([A-Z])/g, '-$1').toLowerCase());
-            if (el) el.value = h[k] || '';
-        });
-        document.getElementById('patient-family-structure').value = h.familyStructure || '';
-        document.getElementById('patient-consult-reason').value = h.consultReason || '';
-        document.getElementById('patient-current-illness').value = h.currentIllness || '';
-        document.getElementById('patient-housing-type').value = h.housingType || '';
-        const a = h.antecedentes;
-        Object.keys(a).forEach(k => { const el = document.getElementById('antecedentes-' + k); if (el) el.value = a[k] || ''; });
-        const g = h.ginecologicos;
-        DOM.ginecologicosFieldset.style.display = patient.sex === 'Femenino' ? 'block' : 'none';
-        Object.keys(g).forEach(k => { const el = document.getElementById('ginecologicos-' + k); if (el) el.value = g[k] || ''; });
-    };
-
-    const calculateMoriskyScore = () => {
-        const q1 = DOM.moriskyForm.querySelector('input[name="morisky-q1"]:checked');
-        const q2 = DOM.moriskyForm.querySelector('input[name="morisky-q2"]:checked');
-        const q3 = DOM.moriskyForm.querySelector('input[name="morisky-q3"]:checked');
-        const q4 = DOM.moriskyForm.querySelector('input[name="morisky-q4"]:checked');
-        if (!q1 || !q2 || !q3 || !q4) { DOM.moriskyResult.textContent = 'Seleccione una respuesta para cada pregunta.'; DOM.adherenceScoreInput.value = ''; return; }
-        let score = 0;
-        if (q1.value === 'si') score++;
-        if (q2.value === 'no') score++;
-        if (q3.value === 'si') score++;
-        if (q4.value === 'si') score++;
-        DOM.adherenceScoreInput.value = score;
-        if (score === 0) {
-            DOM.moriskyResult.style.background = '#d8f3dc'; DOM.moriskyResult.style.color = '#1b4332';
-            DOM.moriskyResult.innerHTML = '✅ <strong>Cumple</strong> con el tratamiento';
-        } else {
-            DOM.moriskyResult.style.background = '#fde8e8'; DOM.moriskyResult.style.color = '#c00';
-            DOM.moriskyResult.innerHTML = `❌ <strong>No Cumple</strong> — Puntaje de incumplimiento: ${score}`;
-        }
-    };
-
-    const renderPatientList = () => {
-        DOM.patientList.innerHTML = '';
-        if (patients.length === 0) {
-            DOM.patientList.innerHTML = '<li style="text-align:center; color:#bbb; padding:1.5rem 0; font-size:0.88rem;">No hay pacientes registrados.</li>';
-            return;
-        }
-        patients.forEach(patient => {
-            const age = calculateAge(patient.birthdate);
-            const li = document.createElement('li');
-            li.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding:0.65rem 0.8rem; border-radius:8px; cursor:pointer; transition:background 0.15s;';
-            li.className = `patient-list-item ${patient.id === selectedPatientId ? 'active' : ''}`;
-            li.dataset.id = patient.id;
-            li.innerHTML = `<div><p style="font-weight:600; color:#333; font-size:0.9rem;">${patient.name}</p><p style="font-size:0.78rem; color:#888;">Doc: ${patient.id} · ${age} años</p></div><button class="btn-danger delete-patient-btn" data-id="${patient.id}" style="flex-shrink:0;">✕</button>`;
-            li.addEventListener('click', (e) => {
-                if (e.target.classList.contains('delete-patient-btn')) return;
-                selectedPatientId = patient.id; renderPatientDetails(); renderPatientList();
-            });
-            DOM.patientList.appendChild(li);
-        });
-        document.querySelectorAll('.delete-patient-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const pid = e.target.dataset.id;
-                const pat = patients.find(p => p.id === pid);
-                openConfirmModal(`¿Eliminar a ${pat.name}? Esta acción no se puede deshacer.`, () => {
-                    patients = patients.filter(p => p.id !== pid);
-                    if (selectedPatientId === pid) selectedPatientId = null;
-                    saveData(); renderPatientList(); renderPatientDetails(); renderAggregatedCharts(); closeConfirmModal();
-                });
-            });
-        });
-    };
-
-    const renderPatientDetails = () => {
-        if (!selectedPatientId) {
-            DOM.welcomeMessage.style.display = 'block';
-            DOM.patientDetailsSection.style.display = 'none';
-            return;
-        }
-        const patient = patients.find(p => p.id === selectedPatientId);
-        if (patient) {
-            DOM.welcomeMessage.style.display = 'none';
-            DOM.patientDetailsSection.style.display = 'block';
-            document.getElementById('patient-name-header').textContent = patient.name;
-            document.getElementById('patient-info-header').textContent = `Doc: ${patient.id} · ${calculateAge(patient.birthdate)} años · ${patient.sex}`;
-            document.getElementById('record-modal-patient-name').textContent = patient.name;
-            renderAllCharts(patient);
-            renderRecordsList(patient);
-        }
-    };
-
-    const renderRecordsList = (patient) => {
-        DOM.recordsListSection.innerHTML = '<h3 style="font-family:\'Playfair Display\',serif; font-size:1.1rem; color:var(--verde); margin-bottom:1rem;">Historial de Mediciones</h3>';
-        if (!patient.records || patient.records.length === 0) {
-            DOM.recordsListSection.innerHTML += '<p style="color:#aaa; font-size:0.9rem;">No hay mediciones registradas.</p>';
-            return;
-        }
-        const table = document.createElement('table');
-        table.style.cssText = 'width:100%; border-collapse:collapse; font-size:0.85rem;';
-        table.innerHTML = `<thead><tr style="background:#f0faf5;"><th style="padding:0.5rem; border:1px solid #ddd; color:var(--verde);">Fecha</th><th style="padding:0.5rem; border:1px solid #ddd; color:var(--verde);">Frag.</th><th style="padding:0.5rem; border:1px solid #ddd; color:var(--verde);">Caída</th><th style="padding:0.5rem; border:1px solid #ddd; color:var(--verde);">Cogn.</th><th style="padding:0.5rem; border:1px solid #ddd; color:var(--verde);">Adher.</th><th style="padding:0.5rem; border:1px solid #ddd; color:var(--verde);">Cardio.</th><th style="padding:0.5rem; border:1px solid #ddd;">Acción</th></tr></thead><tbody></tbody>`;
-        const tbody = table.querySelector('tbody');
-        patient.records.forEach((rec, idx) => {
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td style="padding:0.45rem; border:1px solid #eee;">${new Date(rec.date).toLocaleDateString('es-ES')}</td><td style="padding:0.45rem; border:1px solid #eee; text-align:center;">${rec.fragility}</td><td style="padding:0.45rem; border:1px solid #eee; text-align:center;">${rec.fallRisk}s</td><td style="padding:0.45rem; border:1px solid #eee; text-align:center;">${rec.cognitive}</td><td style="padding:0.45rem; border:1px solid #eee; text-align:center;">${rec.adherence === 0 ? '✅' : `❌(${rec.adherence})`}</td><td style="padding:0.45rem; border:1px solid #eee; text-align:center;">${rec.cardioRisk}%</td><td style="padding:0.45rem; border:1px solid #eee; text-align:center;"><button class="btn-danger delete-record-btn" data-index="${idx}">Eliminar</button></td>`;
-            tbody.appendChild(tr);
-        });
-        DOM.recordsListSection.appendChild(table);
-        document.querySelectorAll('.delete-record-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const idx = parseInt(e.target.dataset.index, 10);
-                openConfirmModal('¿Eliminar esta medición?', () => {
-                    patient.records.splice(idx, 1);
-                    saveData(); renderPatientDetails(); renderAggregatedCharts(); closeConfirmModal();
-                });
-            });
-        });
-    };
-
-    const createOrUpdateChart = (chartId, label, labels, data, color) => {
-        const ctx = document.getElementById(chartId).getContext('2d');
-        if (charts[chartId]) charts[chartId].destroy();
-        charts[chartId] = new Chart(ctx, {
+    // ── VIF charts registry ──
+    const vifCharts = {};
+    const mkChart = (id, label, labels, data, color) => {
+        const ctx = document.getElementById(id);
+        if (!ctx) return;
+        if (vifCharts[id]) vifCharts[id].destroy();
+        vifCharts[id] = new Chart(ctx.getContext('2d'), {
             type: 'line',
-            data: { labels, datasets: [{ label, data, borderColor: color, backgroundColor: color + '22', tension: 0.3, fill: true, pointBackgroundColor: color, pointRadius: 4 }] },
-            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { color: '#f0f0f0' } }, x: { grid: { display: false } } }, plugins: { legend: { display: false } } }
+            data: { labels, datasets: [{ label, data, borderColor: color, backgroundColor: color+'22', tension: 0.3, fill: true, pointRadius: 4, pointBackgroundColor: color }] },
+            options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, grid: { color: '#f5f5f5' } }, x: { grid: { display: false } } }, plugins: { legend: { display: false } } }
         });
     };
 
-    const scalesDef = [
-        { key: 'fragility', chartId: 'fragilityChart', aggId: 'aggFragilityChart', label: 'Fragilidad', color: '#2d6a4f' },
-        { key: 'fallRisk', chartId: 'fallRiskChart', aggId: 'aggFallRiskChart', label: 'Up & Go (seg)', color: '#40916c' },
-        { key: 'cognitive', chartId: 'cognitiveChart', aggId: 'aggCognitiveChart', label: 'Pfeiffer errores', color: '#dda15e' },
-        { key: 'adherence', chartId: 'adherenceChart', aggId: 'aggAdherenceChart', label: 'Morisky', color: '#bc6c25' },
-        { key: 'cardioRisk', chartId: 'cardioRiskChart', aggId: 'aggCardioRiskChart', label: 'Framingham %', color: '#c1121f' }
-    ];
+    // ── Confirm modal (shared VIF) ──
+    let vifConfirmCb = null;
+    const openVifConfirm = (txt, cb) => {
+        document.getElementById('vif-confirm-text').textContent = txt;
+        vifConfirmCb = cb;
+        document.getElementById('vif-confirm-modal').style.display = 'flex';
+    };
+    document.getElementById('vif-confirm-cancel').onclick = () => { document.getElementById('vif-confirm-modal').style.display = 'none'; vifConfirmCb = null; };
+    document.getElementById('vif-confirm-ok').onclick = () => { if (vifConfirmCb) vifConfirmCb(); document.getElementById('vif-confirm-modal').style.display = 'none'; vifConfirmCb = null; };
 
-    const renderAllCharts = (patient) => {
-        scalesDef.forEach(s => {
-            const recs = (patient.records || []).slice().sort((a, b) => new Date(a.date) - new Date(b.date));
-            createOrUpdateChart(s.chartId, s.label, recs.map(r => new Date(r.date).toLocaleDateString('es-ES')), recs.map(r => r[s.key]), s.color);
-        });
+    const row = (label, val) => `<div style="display:grid;grid-template-columns:1fr 2fr;gap:0.5rem;padding:0.35rem 0;border-bottom:1px solid #f3f4f6;"><span style="font-size:0.8rem;font-weight:600;color:#888;">${label}</span><span style="font-size:0.85rem;color:#333;">${val||'—'}</span></div>`;
+
+    // ════════════════════════════════════════════════════════════
+    //  MUJERES MODULE
+    // ════════════════════════════════════════════════════════════
+    let casesMujeres = [];
+    try { casesMujeres = JSON.parse(localStorage.getItem('vif_mujeres') || '[]'); } catch(e) {}
+    let selMujer = null;
+
+    const saveMujeres = () => {
+        try { localStorage.setItem('vif_mujeres', JSON.stringify(casesMujeres)); localStorage.setItem('vif_mujeres_updated', new Date().toISOString()); } catch(e) { alert('Almacenamiento lleno. Exporta los datos.'); }
     };
 
-    const renderAggregatedCharts = () => {
-        const allRecs = patients.flatMap(p => p.records || []);
-        if (!allRecs.length) return;
-        const byDate = {};
-        allRecs.forEach(rec => {
-            if (!byDate[rec.date]) byDate[rec.date] = { fragility:[], fallRisk:[], cognitive:[], adherence:[], cardioRisk:[] };
-            scalesDef.forEach(s => { if (rec[s.key] !== undefined) byDate[rec.date][s.key].push(rec[s.key]); });
-        });
-        const dates = Object.keys(byDate).sort((a,b) => new Date(a)-new Date(b));
-        const avg = arr => arr.length ? arr.reduce((a,b) => a+b, 0) / arr.length : 0;
-        scalesDef.forEach(s => {
-            createOrUpdateChart(s.aggId, 'Promedio ' + s.label, dates.map(d => new Date(d).toLocaleDateString('es-ES')), dates.map(d => +avg(byDate[d][s.key]).toFixed(2)), s.color);
-        });
+    window.exportVifMujeresData = () => {
+        const blob = new Blob([JSON.stringify({ cases: casesMujeres, exportedAt: new Date().toISOString() }, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+        a.download = 'siachoque_mujeres_' + new Date().toISOString().slice(0,10) + '.json'; a.click();
     };
-
-    const renderHistoryModal = (patient) => {
-        DOM.historyPatientName.textContent = patient.name;
-        const row = (label, value) => `<div style="display:grid; grid-template-columns:1fr 2fr; gap:0.5rem; padding:0.4rem 0; border-bottom:1px solid #f0f0f0;"><span style="font-size:0.82rem; font-weight:600; color:#888;">${label}</span><span style="font-size:0.88rem; color:#333;">${value || '—'}</span></div>`;
-        const h = patient.history, a = h.antecedentes, g = h.ginecologicos;
-        DOM.historyContent.innerHTML = `
-            <div style="background:#f0faf5; border-radius:10px; padding:1rem;">
-                <h3 style="color:var(--verde); font-weight:700; margin-bottom:0.6rem;">Identificación</h3>
-                ${row('Nombre', patient.name)}${row('Documento', patient.id)}${row('Nacimiento', patient.birthdate)}${row('Lugar', h.birthplace)}${row('Dirección', h.address)}${row('Teléfono', h.phone)}${row('Sexo', patient.sex)}${row('Estado Civil', h.civilStatus)}${row('Ocupación', h.occupation)}${row('Escolaridad', h.schooling)}${row('EAPBS', h.eapbs)}${row('Régimen', h.regimen)}${row('Fam. Estructura', h.familyStructure)}
-            </div>
-            <div style="background:#fff8f0; border-radius:10px; padding:1rem;">
-                <h3 style="color:var(--tierra-oscura); font-weight:700; margin-bottom:0.6rem;">Consulta Actual</h3>
-                ${row('Motivo', h.consultReason)}${row('Enf. Actual', h.currentIllness)}
-            </div>
-            <div style="background:#f5f5f5; border-radius:10px; padding:1rem;">
-                <h3 style="color:#444; font-weight:700; margin-bottom:0.6rem;">Antecedentes</h3>
-                ${Object.entries(a).map(([k,v]) => row(k.charAt(0).toUpperCase()+k.slice(1), v)).join('')}${row('Tipo Vivienda', h.housingType)}
-            </div>
-            ${patient.sex === 'Femenino' ? `<div style="background:#fdf0f8; border-radius:10px; padding:1rem;"><h3 style="color:#9b2c7e; font-weight:700; margin-bottom:0.6rem;">Ginecológicos</h3>${Object.entries(g).map(([k,v]) => row(k.toUpperCase(), v)).join('')}</div>` : ''}
-        `;
-        DOM.historyModal.style.display = 'flex';
-    };
-
-    // ─── EVENT LISTENERS ─── //
-    DOM.addPatientBtn.addEventListener('click', () => {
-        DOM.patientForm.reset(); DOM.patientEditId.value = '';
-        DOM.ginecologicosFieldset.style.display = 'block';
-        DOM.patientModal.style.display = 'flex';
-    });
-    DOM.closePatientModal.addEventListener('click', () => DOM.patientModal.style.display = 'none');
-
-    DOM.patientForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const data = getPatientDataFromForm();
-        const editId = DOM.patientEditId.value;
-        if (editId) {
-            const idx = patients.findIndex(p => p.id === editId);
-            if (idx !== -1) patients[idx] = { ...data, records: patients[idx].records };
-        } else {
-            if (patients.some(p => p.id === data.id)) { alert('Ya existe un paciente con este documento.'); return; }
-            patients.push({ ...data, records: [] });
-        }
-        saveData(); renderPatientList(); if (editId) renderPatientDetails();
-        DOM.patientModal.style.display = 'none';
-    });
-
-    DOM.addRecordBtn.addEventListener('click', () => {
-        if (!selectedPatientId) return;
-        DOM.recordForm.reset();
-        document.getElementById('record-date').valueAsDate = new Date();
-        DOM.moriskyResult.textContent = 'Seleccione una respuesta para cada pregunta.';
-        DOM.moriskyResult.style.background = '#f5f5f5'; DOM.moriskyResult.style.color = '#555';
-        DOM.adherenceScoreInput.value = '';
-        DOM.recordModal.style.display = 'flex';
-    });
-    DOM.closeRecordModal.addEventListener('click', () => DOM.recordModal.style.display = 'none');
-
-    DOM.recordForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const patient = patients.find(p => p.id === selectedPatientId);
-        if (patient) {
-            const rec = {
-                date: document.getElementById('record-date').value,
-                fragility: parseFloat(document.getElementById('fragility-score').value),
-                fallRisk: parseFloat(document.getElementById('fall-risk-score').value),
-                cognitive: parseFloat(document.getElementById('cognitive-score').value),
-                adherence: parseFloat(document.getElementById('adherence-score').value),
-                cardioRisk: parseFloat(document.getElementById('cardio-risk-score').value)
-            };
-            if (!patient.records) patient.records = [];
-            patient.records.push(rec);
-            saveData(); renderPatientDetails(); renderAggregatedCharts();
-            DOM.recordModal.style.display = 'none';
-        }
-    });
-
-    DOM.confirmModalCancel.addEventListener('click', closeConfirmModal);
-    DOM.confirmModalConfirm.addEventListener('click', () => { if (confirmCallback) confirmCallback(); });
-    DOM.moriskyForm.addEventListener('change', calculateMoriskyScore);
-
-    DOM.tabPatientDetails.addEventListener('click', () => {
-        DOM.patientView.style.display = 'block'; DOM.aggregatedView.style.display = 'none'; DOM.scalesFormatView.style.display = 'none';
-        [DOM.tabPatientDetails, DOM.tabAggregatedData, DOM.tabScalesFormat].forEach((t,i) => t.classList.toggle('active', i===0));
-    });
-    DOM.tabAggregatedData.addEventListener('click', () => {
-        DOM.patientView.style.display = 'none'; DOM.aggregatedView.style.display = 'block'; DOM.scalesFormatView.style.display = 'none';
-        [DOM.tabPatientDetails, DOM.tabAggregatedData, DOM.tabScalesFormat].forEach((t,i) => t.classList.toggle('active', i===1));
-        renderAggregatedCharts();
-    });
-    DOM.tabScalesFormat.addEventListener('click', () => {
-        DOM.patientView.style.display = 'none'; DOM.aggregatedView.style.display = 'none'; DOM.scalesFormatView.style.display = 'block';
-        [DOM.tabPatientDetails, DOM.tabAggregatedData, DOM.tabScalesFormat].forEach((t,i) => t.classList.toggle('active', i===2));
-    });
-
-    DOM.viewHistoryBtn.addEventListener('click', () => {
-        const p = patients.find(p => p.id === selectedPatientId); if (p) renderHistoryModal(p);
-    });
-    DOM.editHistoryBtn.addEventListener('click', () => {
-        const p = patients.find(p => p.id === selectedPatientId);
-        if (p) { DOM.patientForm.reset(); DOM.patientEditId.value = p.id; populatePatientForm(p); DOM.patientModal.style.display = 'flex'; }
-    });
-    DOM.closeHistoryModal.addEventListener('click', () => DOM.historyModal.style.display = 'none');
-
-    DOM.patientSexSelect.addEventListener('change', (e) => {
-        DOM.ginecologicosFieldset.style.display = e.target.value === 'Femenino' ? 'block' : 'none';
-    });
-
-    window.addEventListener('click', (e) => {
-        if (e.target === DOM.patientModal) DOM.patientModal.style.display = 'none';
-        if (e.target === DOM.recordModal) DOM.recordModal.style.display = 'none';
-        if (e.target === DOM.confirmModal) closeConfirmModal();
-        if (e.target === DOM.historyModal) DOM.historyModal.style.display = 'none';
-    });
-
-    // ─── EXPORT / IMPORT ─── //
-    window.exportData = () => {
-        const data = { patients, exportedAt: new Date().toISOString(), version: '1.0' };
-        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'siachoque_pacientes_' + new Date().toISOString().slice(0,10) + '.json';
-        a.click();
-    };
-
-    window.importData = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = (ev) => {
+    window.importVifMujeresData = (e) => {
+        const file = e.target.files[0]; if (!file) return;
+        const r = new FileReader();
+        r.onload = ev => {
             try {
-                const imported = JSON.parse(ev.target.result);
-                const importedPatients = imported.patients || imported;
-                if (!Array.isArray(importedPatients)) throw new Error('Formato inválido');
-                const existing = patients.map(p => p.id);
+                const d = JSON.parse(ev.target.result);
+                const imp = d.cases || d;
+                if (!Array.isArray(imp)) throw new Error('Formato inválido');
+                const existing = casesMujeres.map(c => c.id);
                 let added = 0, skipped = 0;
-                importedPatients.forEach(p => {
-                    if (!existing.includes(p.id)) { patients.push(p); added++; }
-                    else skipped++;
-                });
-                saveData();
-                renderPatientList();
-                updateStorageInfo();
-                alert('✅ Importación exitosa: ' + added + ' pacientes agregados, ' + skipped + ' ya existían.');
-            } catch(err) {
-                alert('❌ Error al importar: ' + err.message);
-            }
+                imp.forEach(c => { if (!existing.includes(c.id)) { casesMujeres.push(c); added++; } else skipped++; });
+                saveMujeres(); renderMujeresList(); updateMujeresInfo();
+                alert('✅ ' + added + ' casos importados, ' + skipped + ' ya existían.');
+            } catch(err) { alert('❌ Error: ' + err.message); }
         };
-        reader.readAsText(file);
-        e.target.value = '';
+        r.readAsText(file); e.target.value = '';
     };
 
-    const updateStorageInfo = () => {
-        const infoEl = document.getElementById('storage-info');
-        if (!infoEl) return;
-        const count = patients.length;
-        const updated = localStorage.getItem('patients_siachoque_updated');
-        const dateStr = updated ? new Date(updated).toLocaleDateString('es-ES') : '—';
-        infoEl.textContent = count + ' paciente(s) · Guardado: ' + dateStr;
+    const updateMujeresInfo = () => {
+        const el = document.getElementById('vif-mujeres-storage-info');
+        if (!el) return;
+        const upd = localStorage.getItem('vif_mujeres_updated');
+        el.textContent = casesMujeres.length + ' caso(s) · ' + (upd ? new Date(upd).toLocaleDateString('es-ES') : '—');
     };
+
+    const renderMujeresList = () => {
+        const ul = document.getElementById('vif-m-list');
+        ul.innerHTML = '';
+        if (!casesMujeres.length) { ul.innerHTML = '<li style="text-align:center;color:#bbb;padding:1.5rem 0;font-size:0.88rem;">No hay casos registrados.</li>'; return; }
+        casesMujeres.forEach(c => {
+            const li = document.createElement('li');
+            li.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:0.65rem 0.8rem;border-radius:8px;cursor:pointer;transition:background 0.15s;';
+            li.className = 'patient-list-item' + (c.id === selMujer ? ' active' : '');
+            li.innerHTML = `<div><p style="font-weight:600;color:#333;font-size:0.9rem;">${c.name}</p><p style="font-size:0.78rem;color:#888;">${calcAge(c.birthdate)} años · ${(c.violenceTypes||[]).join(', ')||'Sin tipo'}</p></div><button style="background:#dc3545;color:#fff;border:none;padding:0.2rem 0.5rem;border-radius:6px;font-size:0.75rem;cursor:pointer;" class="del-m-btn" data-id="${c.id}">✕</button>`;
+            li.addEventListener('click', e => { if (e.target.classList.contains('del-m-btn')) return; selMujer = c.id; renderMujeresDetail(); renderMujeresList(); });
+            ul.appendChild(li);
+        });
+        ul.querySelectorAll('.del-m-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                const cid = e.target.dataset.id;
+                const c = casesMujeres.find(x => x.id === cid);
+                openVifConfirm('¿Eliminar el caso de ' + c.name + '?', () => {
+                    casesMujeres = casesMujeres.filter(x => x.id !== cid);
+                    if (selMujer === cid) selMujer = null;
+                    saveMujeres(); renderMujeresList(); renderMujeresDetail(); updateMujeresInfo();
+                });
+            });
+        });
+    };
+
+    const renderMujeresDetail = () => {
+        const welcome = document.getElementById('vif-m-welcome');
+        const detail = document.getElementById('vif-m-case-detail');
+        if (!selMujer) { welcome.style.display = 'block'; detail.style.display = 'none'; return; }
+        const c = casesMujeres.find(x => x.id === selMujer);
+        if (!c) return;
+        welcome.style.display = 'none'; detail.style.display = 'block';
+        document.getElementById('vif-m-case-name').textContent = c.name;
+        document.getElementById('vif-m-case-info').textContent = `Doc: ${c.id} · ${calcAge(c.birthdate)} años · ${c.civil||''}`;
+        document.getElementById('vif-m-record-case-name').textContent = c.name;
+        const recs = (c.records||[]).slice().sort((a,b)=>new Date(a.date)-new Date(b.date));
+        const lbls = recs.map(r => new Date(r.date).toLocaleDateString('es-ES'));
+        mkChart('vif-m-wast-chart','WAST',lbls,recs.map(r=>r.wast),'#a855f7');
+        mkChart('vif-m-isa-chart','ISA',lbls,recs.map(r=>r.isa),'#7c3aed');
+        mkChart('vif-m-danger-chart','Danger',lbls,recs.map(r=>r.danger),'#f43f5e');
+        renderMujeresRecordsList(c);
+    };
+
+    const renderMujeresRecordsList = (c) => {
+        const el = document.getElementById('vif-m-records-list');
+        el.innerHTML = '<h3 style="font-family:'Playfair Display',serif;font-size:1rem;color:#6b21a8;margin-bottom:0.8rem;">Historial de Valoraciones</h3>';
+        if (!c.records||!c.records.length) { el.innerHTML += '<p style="color:#aaa;font-size:0.88rem;">Sin valoraciones.</p>'; return; }
+        const t = document.createElement('table');
+        t.style.cssText = 'width:100%;border-collapse:collapse;font-size:0.82rem;';
+        t.innerHTML = '<thead><tr style="background:#faf5ff;"><th style="padding:0.45rem;border:1px solid #e9d5ff;color:#7c3aed;">Fecha</th><th style="padding:0.45rem;border:1px solid #e9d5ff;color:#7c3aed;">WAST</th><th style="padding:0.45rem;border:1px solid #e9d5ff;color:#7c3aed;">ISA</th><th style="padding:0.45rem;border:1px solid #e9d5ff;color:#7c3aed;">Danger</th><th style="padding:0.45rem;border:1px solid #e9d5ff;">Obs.</th><th style="padding:0.45rem;border:1px solid #e9d5ff;">✕</th></tr></thead><tbody></tbody>';
+        const tb = t.querySelector('tbody');
+        c.records.forEach((r,i) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td style="padding:0.4rem;border:1px solid #f0e6ff;">${new Date(r.date).toLocaleDateString('es-ES')}</td><td style="padding:0.4rem;border:1px solid #f0e6ff;text-align:center;">${r.wast}</td><td style="padding:0.4rem;border:1px solid #f0e6ff;text-align:center;">${r.isa}</td><td style="padding:0.4rem;border:1px solid #f0e6ff;text-align:center;">${r.danger}</td><td style="padding:0.4rem;border:1px solid #f0e6ff;font-size:0.78rem;">${r.notes||'—'}</td><td style="padding:0.4rem;border:1px solid #f0e6ff;text-align:center;"><button class="btn-danger del-mr-btn" data-idx="${i}" style="padding:0.2rem 0.4rem;font-size:0.72rem;">✕</button></td>`;
+            tb.appendChild(tr);
+        });
+        el.appendChild(t);
+        el.querySelectorAll('.del-mr-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                const idx = parseInt(e.target.dataset.idx);
+                openVifConfirm('¿Eliminar esta valoración?', () => { c.records.splice(idx,1); saveMujeres(); renderMujeresDetail(); });
+            });
+        });
+    };
+
+    // Tab switching Mujeres
+    document.querySelectorAll('.vif-m-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.vif-m-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            ['vif-m-detail-view','vif-m-scales-view'].forEach(id => { document.getElementById(id).style.display = 'none'; });
+            document.getElementById(btn.dataset.vtab).style.display = 'block';
+        });
+    });
+
+    // Add case Mujeres
+    document.getElementById('vif-m-add-btn').addEventListener('click', () => {
+        document.getElementById('vif-m-form').reset();
+        document.getElementById('vif-m-edit-id').value = '';
+        document.getElementById('vif-m-case-modal').style.display = 'flex';
+    });
+
+    document.getElementById('vif-m-form').addEventListener('submit', e => {
+        e.preventDefault();
+        const editId = document.getElementById('vif-m-edit-id').value;
+        const types = Array.from(document.querySelectorAll('#vif-m-violence-types input:checked')).map(x => x.value);
+        const data = {
+            id: document.getElementById('vif-m-id').value,
+            name: document.getElementById('vif-m-name').value,
+            birthdate: document.getElementById('vif-m-birthdate').value,
+            phone: document.getElementById('vif-m-phone').value,
+            address: document.getElementById('vif-m-address').value,
+            civil: document.getElementById('vif-m-civil').value,
+            schooling: document.getElementById('vif-m-schooling').value,
+            occupation: document.getElementById('vif-m-occupation').value,
+            children: document.getElementById('vif-m-children').value,
+            support: document.getElementById('vif-m-support').value,
+            violenceTypes: types,
+            duration: document.getElementById('vif-m-duration').value,
+            reason: document.getElementById('vif-m-reason').value,
+            background: document.getElementById('vif-m-background').value,
+            reports: document.getElementById('vif-m-reports').value,
+            route: document.getElementById('vif-m-route').value,
+        };
+        if (editId) {
+            const idx = casesMujeres.findIndex(c => c.id === editId);
+            if (idx !== -1) casesMujeres[idx] = { ...data, records: casesMujeres[idx].records };
+        } else {
+            if (casesMujeres.some(c => c.id === data.id)) { alert('Ya existe un caso con ese documento.'); return; }
+            casesMujeres.push({ ...data, records: [] });
+        }
+        saveMujeres(); renderMujeresList(); if (editId) renderMujeresDetail(); updateMujeresInfo();
+        document.getElementById('vif-m-case-modal').style.display = 'none';
+    });
+
+    // Add record Mujeres
+    document.getElementById('vif-m-add-record-btn').addEventListener('click', () => {
+        if (!selMujer) return;
+        document.getElementById('vif-m-record-form').reset();
+        document.getElementById('vif-m-rec-date').valueAsDate = new Date();
+        document.getElementById('vif-m-record-modal').style.display = 'flex';
+    });
+
+    document.getElementById('vif-m-record-form').addEventListener('submit', e => {
+        e.preventDefault();
+        const c = casesMujeres.find(x => x.id === selMujer);
+        if (!c) return;
+        c.records = c.records || [];
+        c.records.push({
+            date: document.getElementById('vif-m-rec-date').value,
+            wast: parseFloat(document.getElementById('vif-m-rec-wast').value),
+            isa: parseFloat(document.getElementById('vif-m-rec-isa').value),
+            danger: parseFloat(document.getElementById('vif-m-rec-danger').value),
+            notes: document.getElementById('vif-m-rec-notes').value,
+        });
+        saveMujeres(); renderMujeresDetail();
+        document.getElementById('vif-m-record-modal').style.display = 'none';
+    });
+
+    // View/Edit history Mujeres
+    document.getElementById('vif-m-view-btn').addEventListener('click', () => {
+        const c = casesMujeres.find(x => x.id === selMujer); if (!c) return;
+        document.getElementById('vif-m-history-name').textContent = c.name;
+        document.getElementById('vif-m-history-content').innerHTML = `
+            <div style="background:#faf5ff;border-radius:10px;padding:1rem;">
+                <h3 style="color:#6b21a8;font-weight:700;margin-bottom:0.6rem;">Identificación</h3>
+                ${row('Nombre',c.name)}${row('Documento',c.id)}${row('Nacimiento',c.birthdate)}${row('Teléfono',c.phone)}${row('Dirección',c.address)}${row('Estado Civil',c.civil)}${row('Escolaridad',c.schooling)}${row('Ocupación',c.occupation)}${row('N° Hijos',c.children)}${row('Red de Apoyo',c.support)}
+            </div>
+            <div style="background:#fff1f2;border-radius:10px;padding:1rem;margin-top:0.8rem;">
+                <h3 style="color:#be123c;font-weight:700;margin-bottom:0.6rem;">Contexto de Violencia</h3>
+                ${row('Tipos',( c.violenceTypes||[]).join(', '))}${row('Duración',c.duration)}${row('Motivo',c.reason)}${row('Antecedentes',c.background)}${row('Denuncias',c.reports)}${row('Ruta activada',c.route)}
+            </div>`;
+        document.getElementById('vif-m-history-modal').style.display = 'flex';
+    });
+    document.getElementById('vif-m-edit-btn').addEventListener('click', () => {
+        const c = casesMujeres.find(x => x.id === selMujer); if (!c) return;
+        document.getElementById('vif-m-form').reset();
+        document.getElementById('vif-m-edit-id').value = c.id;
+        document.getElementById('vif-m-name').value = c.name;
+        document.getElementById('vif-m-id').value = c.id;
+        document.getElementById('vif-m-birthdate').value = c.birthdate;
+        document.getElementById('vif-m-phone').value = c.phone||'';
+        document.getElementById('vif-m-address').value = c.address||'';
+        document.getElementById('vif-m-civil').value = c.civil||'Soltera';
+        document.getElementById('vif-m-schooling').value = c.schooling||'';
+        document.getElementById('vif-m-occupation').value = c.occupation||'';
+        document.getElementById('vif-m-children').value = c.children||'';
+        document.getElementById('vif-m-support').value = c.support||'';
+        document.querySelectorAll('#vif-m-violence-types input').forEach(cb => { cb.checked = (c.violenceTypes||[]).includes(cb.value); });
+        document.getElementById('vif-m-duration').value = c.duration||'';
+        document.getElementById('vif-m-reason').value = c.reason||'';
+        document.getElementById('vif-m-background').value = c.background||'';
+        document.getElementById('vif-m-reports').value = c.reports||'No';
+        document.getElementById('vif-m-route').value = c.route||'';
+        document.getElementById('vif-m-case-modal').style.display = 'flex';
+    });
+
+    // ════════════════════════════════════════════════════════════
+    //  HOMBRES MODULE
+    // ════════════════════════════════════════════════════════════
+    let casesHombres = [];
+    try { casesHombres = JSON.parse(localStorage.getItem('vif_hombres') || '[]'); } catch(e) {}
+    let selHombre = null;
+
+    const saveHombres = () => {
+        try { localStorage.setItem('vif_hombres', JSON.stringify(casesHombres)); localStorage.setItem('vif_hombres_updated', new Date().toISOString()); } catch(e) { alert('Almacenamiento lleno. Exporta los datos.'); }
+    };
+
+    window.exportVifHombresData = () => {
+        const blob = new Blob([JSON.stringify({ cases: casesHombres, exportedAt: new Date().toISOString() }, null, 2)], { type: 'application/json' });
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+        a.download = 'siachoque_hombres_' + new Date().toISOString().slice(0,10) + '.json'; a.click();
+    };
+    window.importVifHombresData = (e) => {
+        const file = e.target.files[0]; if (!file) return;
+        const r = new FileReader();
+        r.onload = ev => {
+            try {
+                const d = JSON.parse(ev.target.result);
+                const imp = d.cases || d;
+                if (!Array.isArray(imp)) throw new Error('Formato inválido');
+                const existing = casesHombres.map(c => c.id);
+                let added = 0, skipped = 0;
+                imp.forEach(c => { if (!existing.includes(c.id)) { casesHombres.push(c); added++; } else skipped++; });
+                saveHombres(); renderHombresList(); updateHombresInfo();
+                alert('✅ ' + added + ' casos importados, ' + skipped + ' ya existían.');
+            } catch(err) { alert('❌ Error: ' + err.message); }
+        };
+        r.readAsText(file); e.target.value = '';
+    };
+
+    const updateHombresInfo = () => {
+        const el = document.getElementById('vif-hombres-storage-info');
+        if (!el) return;
+        const upd = localStorage.getItem('vif_hombres_updated');
+        el.textContent = casesHombres.length + ' caso(s) · ' + (upd ? new Date(upd).toLocaleDateString('es-ES') : '—');
+    };
+
+    const renderHombresList = () => {
+        const ul = document.getElementById('vif-h-list');
+        ul.innerHTML = '';
+        if (!casesHombres.length) { ul.innerHTML = '<li style="text-align:center;color:#bbb;padding:1.5rem 0;font-size:0.88rem;">No hay casos registrados.</li>'; return; }
+        casesHombres.forEach(c => {
+            const li = document.createElement('li');
+            li.style.cssText = 'display:flex;justify-content:space-between;align-items:center;padding:0.65rem 0.8rem;border-radius:8px;cursor:pointer;transition:background 0.15s;';
+            li.className = 'patient-list-item' + (c.id === selHombre ? ' active' : '');
+            li.innerHTML = `<div><p style="font-weight:600;color:#333;font-size:0.9rem;">${c.name}</p><p style="font-size:0.78rem;color:#888;">${calcAge(c.birthdate)} años · ${c.role||''}</p></div><button style="background:#dc3545;color:#fff;border:none;padding:0.2rem 0.5rem;border-radius:6px;font-size:0.75rem;cursor:pointer;" class="del-h-btn" data-id="${c.id}">✕</button>`;
+            li.addEventListener('click', e => { if (e.target.classList.contains('del-h-btn')) return; selHombre = c.id; renderHombresDetail(); renderHombresList(); });
+            ul.appendChild(li);
+        });
+        ul.querySelectorAll('.del-h-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                e.stopPropagation();
+                const cid = e.target.dataset.id;
+                const c = casesHombres.find(x => x.id === cid);
+                openVifConfirm('¿Eliminar el caso de ' + c.name + '?', () => {
+                    casesHombres = casesHombres.filter(x => x.id !== cid);
+                    if (selHombre === cid) selHombre = null;
+                    saveHombres(); renderHombresList(); renderHombresDetail(); updateHombresInfo();
+                });
+            });
+        });
+    };
+
+    const renderHombresDetail = () => {
+        const welcome = document.getElementById('vif-h-welcome');
+        const detail = document.getElementById('vif-h-case-detail');
+        if (!selHombre) { welcome.style.display = 'block'; detail.style.display = 'none'; return; }
+        const c = casesHombres.find(x => x.id === selHombre);
+        if (!c) return;
+        welcome.style.display = 'none'; detail.style.display = 'block';
+        document.getElementById('vif-h-case-name').textContent = c.name;
+        document.getElementById('vif-h-case-info').textContent = `Doc: ${c.id} · ${calcAge(c.birthdate)} años · ${c.role||''}`;
+        document.getElementById('vif-h-record-case-name').textContent = c.name;
+        const recs = (c.records||[]).slice().sort((a,b)=>new Date(a.date)-new Date(b.date));
+        const lbls = recs.map(r => new Date(r.date).toLocaleDateString('es-ES'));
+        mkChart('vif-h-audit-chart','AUDIT',lbls,recs.map(r=>r.audit),'#3b82f6');
+        mkChart('vif-h-sara-chart','SARA',lbls,recs.map(r=>r.sara),'#6366f1');
+        mkChart('vif-h-eas-chart','EAS',lbls,recs.map(r=>r.eas),'#eab308');
+        renderHombresRecordsList(c);
+    };
+
+    const renderHombresRecordsList = (c) => {
+        const el = document.getElementById('vif-h-records-list');
+        el.innerHTML = '<h3 style="font-family:'Playfair Display',serif;font-size:1rem;color:#1e3a8a;margin-bottom:0.8rem;">Historial de Valoraciones</h3>';
+        if (!c.records||!c.records.length) { el.innerHTML += '<p style="color:#aaa;font-size:0.88rem;">Sin valoraciones.</p>'; return; }
+        const t = document.createElement('table');
+        t.style.cssText = 'width:100%;border-collapse:collapse;font-size:0.82rem;';
+        t.innerHTML = '<thead><tr style="background:#eff6ff;"><th style="padding:0.45rem;border:1px solid #bfdbfe;color:#1e3a8a;">Fecha</th><th style="padding:0.45rem;border:1px solid #bfdbfe;color:#1e3a8a;">AUDIT</th><th style="padding:0.45rem;border:1px solid #bfdbfe;color:#1e3a8a;">SARA</th><th style="padding:0.45rem;border:1px solid #bfdbfe;color:#1e3a8a;">EAS</th><th style="padding:0.45rem;border:1px solid #bfdbfe;">Obs.</th><th style="padding:0.45rem;border:1px solid #bfdbfe;">✕</th></tr></thead><tbody></tbody>';
+        const tb = t.querySelector('tbody');
+        c.records.forEach((r,i) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td style="padding:0.4rem;border:1px solid #e0eaff;">${new Date(r.date).toLocaleDateString('es-ES')}</td><td style="padding:0.4rem;border:1px solid #e0eaff;text-align:center;">${r.audit}</td><td style="padding:0.4rem;border:1px solid #e0eaff;text-align:center;">${r.sara}</td><td style="padding:0.4rem;border:1px solid #e0eaff;text-align:center;">${r.eas}</td><td style="padding:0.4rem;border:1px solid #e0eaff;font-size:0.78rem;">${r.notes||'—'}</td><td style="padding:0.4rem;border:1px solid #e0eaff;text-align:center;"><button class="btn-danger del-hr-btn" data-idx="${i}" style="padding:0.2rem 0.4rem;font-size:0.72rem;">✕</button></td>`;
+            tb.appendChild(tr);
+        });
+        el.appendChild(t);
+        el.querySelectorAll('.del-hr-btn').forEach(btn => {
+            btn.addEventListener('click', e => {
+                const idx = parseInt(e.target.dataset.idx);
+                openVifConfirm('¿Eliminar esta valoración?', () => { c.records.splice(idx,1); saveHombres(); renderHombresDetail(); });
+            });
+        });
+    };
+
+    // Tab switching Hombres
+    document.querySelectorAll('.vif-h-tab').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.querySelectorAll('.vif-h-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            ['vif-h-detail-view','vif-h-scales-view'].forEach(id => { document.getElementById(id).style.display = 'none'; });
+            document.getElementById(btn.dataset.htab).style.display = 'block';
+        });
+    });
+
+    document.getElementById('vif-h-add-btn').addEventListener('click', () => {
+        document.getElementById('vif-h-form').reset();
+        document.getElementById('vif-h-edit-id').value = '';
+        document.getElementById('vif-h-case-modal').style.display = 'flex';
+    });
+
+    document.getElementById('vif-h-form').addEventListener('submit', e => {
+        e.preventDefault();
+        const editId = document.getElementById('vif-h-edit-id').value;
+        const types = Array.from(document.querySelectorAll('#vif-h-violence-types input:checked')).map(x => x.value);
+        const data = {
+            id: document.getElementById('vif-h-id').value,
+            name: document.getElementById('vif-h-name').value,
+            birthdate: document.getElementById('vif-h-birthdate').value,
+            phone: document.getElementById('vif-h-phone').value,
+            address: document.getElementById('vif-h-address').value,
+            civil: document.getElementById('vif-h-civil').value,
+            schooling: document.getElementById('vif-h-schooling').value,
+            occupation: document.getElementById('vif-h-occupation').value,
+            role: document.getElementById('vif-h-role').value,
+            support: document.getElementById('vif-h-support').value,
+            violenceTypes: types,
+            duration: document.getElementById('vif-h-duration').value,
+            reason: document.getElementById('vif-h-reason').value,
+            background: document.getElementById('vif-h-background').value,
+            legal: document.getElementById('vif-h-legal').value,
+            intervention: document.getElementById('vif-h-intervention').value,
+        };
+        if (editId) {
+            const idx = casesHombres.findIndex(c => c.id === editId);
+            if (idx !== -1) casesHombres[idx] = { ...data, records: casesHombres[idx].records };
+        } else {
+            if (casesHombres.some(c => c.id === data.id)) { alert('Ya existe un caso con ese documento.'); return; }
+            casesHombres.push({ ...data, records: [] });
+        }
+        saveHombres(); renderHombresList(); if (editId) renderHombresDetail(); updateHombresInfo();
+        document.getElementById('vif-h-case-modal').style.display = 'none';
+    });
+
+    document.getElementById('vif-h-add-record-btn').addEventListener('click', () => {
+        if (!selHombre) return;
+        document.getElementById('vif-h-record-form').reset();
+        document.getElementById('vif-h-rec-date').valueAsDate = new Date();
+        document.getElementById('vif-h-record-modal').style.display = 'flex';
+    });
+
+    document.getElementById('vif-h-record-form').addEventListener('submit', e => {
+        e.preventDefault();
+        const c = casesHombres.find(x => x.id === selHombre);
+        if (!c) return;
+        c.records = c.records || [];
+        c.records.push({
+            date: document.getElementById('vif-h-rec-date').value,
+            audit: parseFloat(document.getElementById('vif-h-rec-audit').value),
+            sara: parseFloat(document.getElementById('vif-h-rec-sara').value),
+            eas: parseFloat(document.getElementById('vif-h-rec-eas').value),
+            notes: document.getElementById('vif-h-rec-notes').value,
+        });
+        saveHombres(); renderHombresDetail();
+        document.getElementById('vif-h-record-modal').style.display = 'none';
+    });
+
+    document.getElementById('vif-h-view-btn').addEventListener('click', () => {
+        const c = casesHombres.find(x => x.id === selHombre); if (!c) return;
+        document.getElementById('vif-h-history-name').textContent = c.name;
+        document.getElementById('vif-h-history-content').innerHTML = `
+            <div style="background:#eff6ff;border-radius:10px;padding:1rem;">
+                <h3 style="color:#1e3a8a;font-weight:700;margin-bottom:0.6rem;">Identificación</h3>
+                ${row('Nombre',c.name)}${row('Documento',c.id)}${row('Nacimiento',c.birthdate)}${row('Teléfono',c.phone)}${row('Dirección',c.address)}${row('Estado Civil',c.civil)}${row('Escolaridad',c.schooling)}${row('Ocupación',c.occupation)}${row('Rol',c.role)}${row('Red de Apoyo',c.support)}
+            </div>
+            <div style="background:#fefce8;border-radius:10px;padding:1rem;margin-top:0.8rem;">
+                <h3 style="color:#713f12;font-weight:700;margin-bottom:0.6rem;">Contexto del Caso</h3>
+                ${row('Tipos',(c.violenceTypes||[]).join(', '))}${row('Duración',c.duration)}${row('Motivo',c.reason)}${row('Antecedentes',c.background)}${row('Medidas legales',c.legal)}${row('Intervención',c.intervention)}
+            </div>`;
+        document.getElementById('vif-h-history-modal').style.display = 'flex';
+    });
+    document.getElementById('vif-h-edit-btn').addEventListener('click', () => {
+        const c = casesHombres.find(x => x.id === selHombre); if (!c) return;
+        document.getElementById('vif-h-form').reset();
+        document.getElementById('vif-h-edit-id').value = c.id;
+        document.getElementById('vif-h-name').value = c.name;
+        document.getElementById('vif-h-id').value = c.id;
+        document.getElementById('vif-h-birthdate').value = c.birthdate;
+        document.getElementById('vif-h-phone').value = c.phone||'';
+        document.getElementById('vif-h-address').value = c.address||'';
+        document.getElementById('vif-h-civil').value = c.civil||'Soltero';
+        document.getElementById('vif-h-schooling').value = c.schooling||'';
+        document.getElementById('vif-h-occupation').value = c.occupation||'';
+        document.getElementById('vif-h-role').value = c.role||'Agresor en proceso';
+        document.getElementById('vif-h-support').value = c.support||'';
+        document.querySelectorAll('#vif-h-violence-types input').forEach(cb => { cb.checked = (c.violenceTypes||[]).includes(cb.value); });
+        document.getElementById('vif-h-duration').value = c.duration||'';
+        document.getElementById('vif-h-reason').value = c.reason||'';
+        document.getElementById('vif-h-background').value = c.background||'';
+        document.getElementById('vif-h-legal').value = c.legal||'No';
+        document.getElementById('vif-h-intervention').value = c.intervention||'';
+        document.getElementById('vif-h-case-modal').style.display = 'flex';
+    });
+
+    // close modals on backdrop click
+    ['vif-m-case-modal','vif-m-record-modal','vif-m-history-modal','vif-h-case-modal','vif-h-record-modal','vif-h-history-modal','vif-confirm-modal'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('click', e => { if (e.target === el) el.style.display = 'none'; });
+    });
 
     // Init
-    renderPatientList();
-    renderPatientDetails();
-    updateStorageInfo();
-});
+    renderMujeresList(); renderMujeresDetail(); updateMujeresInfo();
+    renderHombresList(); renderHombresDetail(); updateHombresInfo();
+})();
 </script>
+
 </body>
 </html>
+            font-size: 1.4rem;
+        
