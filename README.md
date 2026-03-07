@@ -513,8 +513,42 @@ footer strong{color:var(--t);}
 (function(){
 var $ = function(id){return document.getElementById(id);};
 var age = function(bd){var b=new Date(bd),t=new Date(),a=t.getFullYear()-b.getFullYear();if(t.getMonth()-b.getMonth()<0||(t.getMonth()===b.getMonth()&&t.getDate()<b.getDate()))a--;return a;};
-var ld = function(k,d){try{return JSON.parse(localStorage.getItem(k)||'null')||d;}catch(e){return d;}};
-var sv = function(k,v){try{localStorage.setItem(k,JSON.stringify(v));localStorage.setItem(k+'_u',new Date().toISOString());}catch(e){alert('Almacenamiento lleno.');}};
+// ── IndexedDB storage engine ──
+var _db = null;
+var _dbReady = new Promise(function(resolve, reject){
+  var req = indexedDB.open('siachoque', 1);
+  req.onupgradeneeded = function(e){
+    var db = e.target.result;
+    if(!db.objectStoreNames.contains('kv')) db.createObjectStore('kv');
+  };
+  req.onsuccess = function(e){ _db = e.target.result; resolve(); };
+  req.onerror = function(){ reject(req.error); };
+});
+var sv = function(k,v){
+  _dbReady.then(function(){
+    var tx = _db.transaction('kv','readwrite');
+    tx.objectStore('kv').put(JSON.stringify(v), k);
+    tx.objectStore('kv').put(new Date().toISOString(), k+'_u');
+  }).catch(function(){ alert('Error al guardar datos.'); });
+};
+var svTs = function(k, cb){
+  _dbReady.then(function(){
+    var tx = _db.transaction('kv','readonly');
+    var req = tx.objectStore('kv').get(k+'_u');
+    req.onsuccess = function(){ cb(req.result||null); };
+  }).catch(function(){ cb(null); });
+};
+var ldAsync = function(k, d, cb){
+  _dbReady.then(function(){
+    var tx = _db.transaction('kv','readonly');
+    var req = tx.objectStore('kv').get(k);
+    req.onsuccess = function(){
+      try{ cb(req.result ? (JSON.parse(req.result)||d) : d); }
+      catch(e){ cb(d); }
+    };
+    req.onerror = function(){ cb(d); };
+  }).catch(function(){ cb(d); });
+};
 var fd = function(d){return new Date(d).toLocaleDateString('es-ES');};
 var row = function(l,v){return '<div style="display:grid;grid-template-columns:1fr 2fr;gap:.4rem;padding:.32rem 0;border-bottom:1px solid #f3f4f6;"><span style="font-size:.78rem;font-weight:600;color:#888;">'+l+'</span><span style="font-size:.83rem;color:#333;">'+(v||'—')+'</span></div>';};
 var charts = {};
@@ -571,9 +605,9 @@ $('ua').addEventListener('dragleave',function(){$('ua').classList.remove('dov');
 $('ua').addEventListener('drop',function(e){e.preventDefault();$('ua').classList.remove('dov');Array.from(e.dataTransfer.files).filter(function(f){return f.type.startsWith('image/');}).forEach(function(f){var r=new FileReader();r.onload=function(ev){addImg(ev.target.result);};r.readAsDataURL(f);});});
 
 // ── GERIATRÍA ──
-var Gd=ld('siac_g',[]), Gs=null;
+var Gd=[], Gs=null;
 var Gsv=function(){sv('siac_g',Gd);};
-var Ginf=function(){var u=localStorage.getItem('siac_g_u');$('ginf').textContent=Gd.length+' paciente(s) · '+(u?fd(u):'—');};
+var Ginf=function(){svTs('siac_g',function(u){$('ginf').textContent=Gd.length+' paciente(s) · '+(u?fd(u):'—');});};
 window.gExp=function(){expDl({patients:Gd,at:new Date().toISOString()},'siac_geri_'+new Date().toISOString().slice(0,10)+'.json');};
 window.gImp=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var d=JSON.parse(ev.target.result);var imp=d.patients||d;if(!Array.isArray(imp))throw new Error('Formato inválido');var ex=Gd.map(function(p){return p.id;});var a=0,s=0;imp.forEach(function(p){if(!ex.includes(p.id)){Gd.push(p);a++;}else s++;});Gsv();gRL();Ginf();alert('✅ '+a+' importados, '+s+' ya existían.');}catch(err){alert('❌ '+err.message);}};r.readAsText(f);e.target.value='';};
 
@@ -685,9 +719,9 @@ $('grf').addEventListener('submit',function(e){
 });
 
 // ── VG MUJERES ──
-var Md=ld('siac_m',[]), Ms=null;
+var Md=[], Ms=null;
 var Msv=function(){sv('siac_m',Md);};
-var Minf=function(){var u=localStorage.getItem('siac_m_u');$('minf').textContent=Md.length+' caso(s) · '+(u?fd(u):'—');};
+var Minf=function(){svTs('siac_m',function(u){$('minf').textContent=Md.length+' caso(s) · '+(u?fd(u):'—');});};
 window.mExp=function(){expDl({cases:Md,at:new Date().toISOString()},'siac_mujeres_'+new Date().toISOString().slice(0,10)+'.json');};
 window.mImp=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var d=JSON.parse(ev.target.result);var imp=d.cases||d;if(!Array.isArray(imp))throw new Error('Formato inválido');var ex=Md.map(function(x){return x.id;});var a=0,s=0;imp.forEach(function(x){if(!ex.includes(x.id)){Md.push(x);a++;}else s++;});Msv();mRL();Minf();alert('✅ '+a+' importados, '+s+' ya existían.');}catch(err){alert('❌ '+err.message);}};r.readAsText(f);e.target.value='';};
 
@@ -763,9 +797,9 @@ $('mrf').addEventListener('submit',function(e){
 });
 
 // ── VG HOMBRES ──
-var Hd=ld('siac_h',[]), Hs=null;
+var Hd=[], Hs=null;
 var Hsv=function(){sv('siac_h',Hd);};
-var Hinf=function(){var u=localStorage.getItem('siac_h_u');$('hinf').textContent=Hd.length+' caso(s) · '+(u?fd(u):'—');};
+var Hinf=function(){svTs('siac_h',function(u){$('hinf').textContent=Hd.length+' caso(s) · '+(u?fd(u):'—');});};
 window.hExp=function(){expDl({cases:Hd,at:new Date().toISOString()},'siac_hombres_'+new Date().toISOString().slice(0,10)+'.json');};
 window.hImp=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){try{var d=JSON.parse(ev.target.result);var imp=d.cases||d;if(!Array.isArray(imp))throw new Error('Formato inválido');var ex=Hd.map(function(x){return x.id;});var a=0,s=0;imp.forEach(function(x){if(!ex.includes(x.id)){Hd.push(x);a++;}else s++;});Hsv();hRL();Hinf();alert('✅ '+a+' importados, '+s+' ya existían.');}catch(err){alert('❌ '+err.message);}};r.readAsText(f);e.target.value='';};
 
@@ -840,12 +874,28 @@ $('hrf').addEventListener('submit',function(e){
   Hsv();hRD();$('hrm').style.display='none';
 });
 
-// ── INIT ──
-gRL();gRD();Ginf();
-mRL();mRD();Minf();
-hRL();hRD();Hinf();
+// ── INIT — load from IndexedDB then render ──
+_dbReady.then(function(){
+  ldAsync('siac_g',[],function(g){
+    Gd=g;
+    ldAsync('siac_m',[],function(m){
+      Md=m;
+      ldAsync('siac_h',[],function(h){
+        Hd=h;
+        gRL();gRD();Ginf();
+        mRL();mRD();Minf();
+        hRL();hRD();Hinf();
+      });
+    });
+  });
+}).catch(function(){
+  // Fallback: render empty
+  gRL();gRD();Ginf();
+  mRL();mRD();Minf();
+  hRL();hRD();Hinf();
+});
 })();
 </script>
 </body>
 </html>
-        
+
